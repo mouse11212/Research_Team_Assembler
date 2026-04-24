@@ -1,0 +1,119 @@
+# 研究方法论索引
+# Research Methodologies Index
+
+version: 1.0.0
+lastUpdated: 2026-03-25
+
+# 预置方法论
+methodologies:
+  first-principles:
+    name: 第一性原理
+    nameEn: First Principles Thinking
+    description: 从基本假设出发，层层推导，适用于基础研究和理论创新
+    tier: core
+    complexity: high
+    applicableDomains:
+      - 基础科学研究
+      - 理论创新
+      - 概念框架构建
+      - 根本原因分析
+    minAgents: 3
+    maxAgents: 8
+    path: first-principles/
+
+  systems-thinking:
+    name: 系统思维
+    nameEn: Systems Thinking
+    description: 从整体性、动态性、层次性角度分析复杂系统问题
+    tier: core
+    complexity: high
+    applicableDomains:
+      - 复杂系统研究
+      - 政策分析
+      - 组织变革研究
+      - 生态系统研究
+    minAgents: 4
+    maxAgents: 12
+    path: systems-thinking/
+
+  design-science:
+    name: 设计科学研究方法论
+    nameEn: Design Science Research Methodology (DSRM)
+    description: 通过设计和评估人造物来解决实际问题，适用于应用研究和解决方案开发
+    tier: core
+    complexity: medium
+    applicableDomains:
+      - 信息系统研究
+      - 产品开发研究
+      - 解决方案设计
+      - 干预措施研究
+    minAgents: 3
+    maxAgents: 8
+    path: design-science/
+
+  action-research:
+    name: 行动研究
+    nameEn: Action Research
+    description: 边行动边研究，在实践中解决问题并生成知识
+    tier: extended
+    complexity: medium
+    applicableDomains:
+      - 教育研究
+      - 组织发展
+      - 社区发展
+      - 变革管理
+    minAgents: 3
+    maxAgents: 6
+    path: action-research/
+
+  grounded-theory:
+    name: 扎根理论
+    nameEn: Grounded Theory
+    description: 从数据中归纳理论，适用于探索性研究和理论构建
+    tier: extended
+    complexity: high
+    applicableDomains:
+      - 社会科学研究
+      - 探索性研究
+      - 现象研究
+      - 理论构建
+    minAgents: 2
+    maxAgents: 5
+    path: grounded-theory/
+
+# 方法论选择指南
+selectionGuide:
+  questions:
+    - question: "研究目的是什么？"
+      options:
+        - value: "探索新现象或构建新理论"
+          recommendations: [grounded-theory]
+        - value: "解决实际问题或设计解决方案"
+          recommendations: [design-science, action-research]
+        - value: "分析复杂系统或理解系统性问题"
+          recommendations: [systems-thinking]
+        - value: "进行基础研究或理论创新"
+          recommendations: [first-principles]
+
+    - question: "研究问题的性质是什么？"
+      options:
+        - value: "需要从根本假设出发"
+          recommendations: [first-principles]
+        - value: "涉及多个相互关联的要素"
+          recommendations: [systems-thinking]
+        - value: "需要实际干预和迭代改进"
+          recommendations: [action-research]
+        - value: "现象尚未被充分理解"
+          recommendations: [grounded-theory]
+
+    - question: "数据来源是什么？"
+      options:
+        - value: "已有理论文献为主"
+          recommendations: [first-principles, systems-thinking]
+        - value: "实证数据和观察为主"
+          recommendations: [grounded-theory]
+        - value: "实践过程中的数据"
+          recommendations: [action-research, design-science]
+
+# 自定义方法论模板路径
+customMethodologyTemplate: custom/.template/

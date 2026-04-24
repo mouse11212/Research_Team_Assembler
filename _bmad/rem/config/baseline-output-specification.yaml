@@ -1,0 +1,431 @@
+# 研究框架基准输出规范
+# Baseline Output Specification
+# 版本: 1.0.0
+
+# ============================================
+# 概述
+# ============================================
+meta:
+  version: "1.0.0"
+  name: "研究框架基准输出规范"
+  description: |
+    定义REM研究框架的基准输出要求，确保：
+    1. 所有必需文件必须存在且有实际内容
+    2. 禁止创建空文件夹
+    3. 输出内容符合质量标准
+  applicableTo:
+    - "create-research-framework workflow"
+    - "所有REM研究项目"
+
+# ============================================
+# 核心原则
+# ============================================
+principles:
+  - id: "no-empty-folders"
+    rule: "禁止创建空文件夹"
+    description: "只有在有文件需要写入时才创建目录"
+    enforcement: "strict"
+
+  - id: "no-placeholder-content"
+    rule: "禁止输出占位符内容"
+    description: "所有模板文件必须填充实际内容，不允许保留[待填写]等占位符"
+    enforcement: "strict"
+
+  - id: "content-quality"
+    rule: "内容质量标准"
+    description: "所有输出内容必须符合最低质量要求（字数、结构、完整性）"
+    enforcement: "strict"
+
+  - id: "file-naming"
+    rule: "文件命名规范"
+    description: "使用小写字母、连字符分隔、有意义的文件名"
+    enforcement: "recommended"
+
+# ============================================
+# 目录结构规范
+# ============================================
+directoryStructure:
+  # 元数据目录
+  "00-meta":
+    required: true
+    description: "项目元数据和配置文件"
+    files:
+      - name: "project-config.yaml"
+        required: true
+        description: "项目配置文件"
+        minSize: 500  # 最小字节数
+
+      - name: "research-framework.yaml"
+        required: true
+        description: "研究框架定义"
+        minSize: 2000
+
+      - name: "status-tracker.yaml"
+        required: true
+        description: "研究状态跟踪"
+        minSize: 500
+
+  # 课题定义目录
+  "01-topic-definition":
+    required: true
+    description: "课题分析与定义"
+    files:
+      - name: "topic-analysis-report.md"
+        required: true
+        description: "课题分析报告"
+        minSize: 3000
+        requiredSections:
+          - "课题背景"
+          - "研究问题"
+          - "研究范围"
+
+      - name: "methodology-selection-report.md"
+        required: true
+        description: "方法论选择报告"
+        minSize: 2000
+        requiredSections:
+          - "方法论比较"
+          - "选择理由"
+          - "应用计划"
+
+  # 文献综述目录
+  "02-literature-review":
+    required: true
+    description: "文献综述"
+    files:
+      - name: "literature-review-report.md"
+        required: true
+        description: "文献综述报告"
+        minSize: 5000
+        requiredSections:
+          - "综述范围"
+          - "主要发现"
+          - "研究空白"
+          - "参考文献"
+
+  # 研究设计目录
+  "03-research-design":
+    required: true
+    description: "研究设计"
+    files:
+      - name: "research-design-proposal.md"
+        required: true
+        description: "研究设计提案"
+        minSize: 3000
+        requiredSections:
+          - "研究目标"
+          - "团队配置"
+          - "研究流程"
+          - "预期成果"
+
+  # Agent输出目录
+  "04-agent-outputs":
+    required: true
+    description: "各领域专家Agent的研究输出"
+    structure:
+      type: "dynamic"
+      pattern: "{agent-id}/reports/*.md"
+      rules:
+        - rule: "每个Agent必须有至少一个输出文件"
+          validation: "minFilesPerAgent >= 1"
+
+        - rule: "Agent目录结构规范"
+          structure: |
+            {agent-id}/
+            ├── reports/
+            │   └── {report-name}.md  # 至少一个
+            └── references/  # 可选
+
+        - rule: "报告内容完整性"
+          minSize: 3000
+          requiredSections:
+            - "理论基础"
+            - "核心方案/发现"
+            - "安全注意事项/局限性"
+            - "参考文献"
+
+  # 协作日志目录
+  "05-collaboration-logs":
+    required: true
+    description: "协作和验证记录"
+    files:
+      - name: "cross-validation-report.md"
+        required: true
+        description: "交叉验证报告"
+        minSize: 2000
+        requiredSections:
+          - "共识确认"
+          - "分歧处理"
+          - "整合建议"
+
+      - name: "critical-review-report.md"
+        required: false
+        description: "批判性审查报告"
+        condition: "交叉验证完成后触发"
+        minSize: 2000
+
+  # 最终成果目录
+  "06-final-deliverables":
+    required: true
+    description: "最终研究成果"
+    files:
+      - name: "comprehensive-exercise-plan-v1.0.md"
+        required: true
+        alternativeName: "comprehensive-{topic}-plan-v1.0.md"
+        description: "综合方案"
+        minSize: 10000
+        requiredSections:
+          - "方案概述"
+          - "理论基础"
+          - "详细方案"
+          - "安全注意事项"
+          - "实施指南"
+
+      - name: "implementation-guide.md"
+        required: true
+        description: "实施指南"
+        minSize: 3000
+        requiredSections:
+          - "实施准备"
+          - "实施步骤"
+          - "注意事项"
+
+      - name: "assessment-toolkit.md"
+        required: true
+        description: "评估工具包"
+        minSize: 3000
+        requiredSections:
+          - "评估工具"
+          - "使用说明"
+
+      - name: "final-research-report.md"
+        required: true
+        description: "最终研究报告"
+        minSize: 5000
+        requiredSections:
+          - "摘要"
+          - "引言"
+          - "方法"
+          - "结果"
+          - "讨论"
+          - "结论"
+
+# ============================================
+# 质量标准
+# ============================================
+qualityStandards:
+  # 内容质量
+  content:
+    # 最小字数要求（按文件类型）
+    minWordCount:
+      report: 3000      # 研究报告
+      guide: 2000       # 指南类
+      toolkit: 2000     # 工具包
+      plan: 8000        # 综合方案
+
+    # 禁止的内容模式
+    forbiddenPatterns:
+      - pattern: "\\[待填写\\]"
+        reason: "占位符内容"
+      - pattern: "\\[TODO\\]"
+        reason: "未完成标记"
+      - pattern: "\\[TBD\\]"
+        reason: "待确定标记"
+      - pattern: "请在此填写"
+        reason: "模板提示语"
+      - pattern: "此处需要补充"
+        reason: "不完整内容"
+
+    # 必需的内容元素
+    requiredElements:
+      - element: "标题层级"
+        description: "文档必须有清晰的标题层级结构"
+      - element: "章节划分"
+        description: "内容应按章节组织"
+      - element: "参考文献"
+        description: "研究报告类文档应有参考文献"
+
+  # 格式规范
+  format:
+    # Markdown规范
+    markdown:
+      - rule: "标题层级不超过4级"
+      - rule: "表格有表头"
+      - rule: "列表格式正确"
+      - rule: "代码块有语言标识"
+
+    # 文件命名
+    naming:
+      - rule: "使用小写字母"
+      - rule: "使用连字符分隔单词"
+      - rule: "避免特殊字符"
+      - rule: "名称有意义，能反映内容"
+
+# ============================================
+# 验证机制
+# ============================================
+validation:
+  # 验证时机
+  triggers:
+    - trigger: "step-complete"
+      steps: ["step-03", "step-06", "step-10"]
+    - trigger: "phase-complete"
+      phases: ["phase-2", "phase-3", "phase-4"]
+
+  # 验证检查项
+  checks:
+    - id: "check-directory-structure"
+      name: "目录结构检查"
+      description: "验证所有必需目录是否存在"
+      action: "检查目录结构是否符合规范"
+      severity: "error"
+
+    - id: "check-required-files"
+      name: "必需文件检查"
+      description: "验证所有必需文件是否存在"
+      action: "检查必需文件列表"
+      severity: "error"
+
+    - id: "check-file-size"
+      name: "文件大小检查"
+      description: "验证文件内容是否达到最小要求"
+      action: "检查文件大小是否超过minSize"
+      severity: "warning"
+
+    - id: "check-content-quality"
+      name: "内容质量检查"
+      description: "验证文件内容是否符合质量标准"
+      action: "检查禁止模式、必需章节"
+      severity: "warning"
+
+    - id: "check-empty-folders"
+      name: "空文件夹检查"
+      description: "确保没有空文件夹"
+      action: "扫描所有目录，标记空目录"
+      severity: "error"
+
+  # 验证报告格式
+  reportFormat:
+    file: "00-meta/validation-report.md"
+    structure:
+      - "验证时间"
+      - "检查结果摘要"
+      - "详细检查项"
+      - "问题列表"
+      - "整改建议"
+
+# ============================================
+# 输出完整性检查清单
+# ============================================
+checklist:
+  step10:
+    name: "Step-10 输出完整性检查"
+    items:
+      - id: "check-meta"
+        description: "检查00-meta目录完整性"
+        files:
+          - "project-config.yaml"
+          - "research-framework.yaml"
+          - "status-tracker.yaml"
+
+      - id: "check-topic"
+        description: "检查01-topic-definition目录完整性"
+        files:
+          - "topic-analysis-report.md"
+          - "methodology-selection-report.md"
+
+      - id: "check-literature"
+        description: "检查02-literature-review目录完整性"
+        files:
+          - "literature-review-report.md"
+
+      - id: "check-design"
+        description: "检查03-research-design目录完整性"
+        files:
+          - "research-design-proposal.md"
+
+      - id: "check-agent-outputs"
+        description: "检查04-agent-outputs目录完整性"
+        validation:
+          - "每个Agent有输出文件"
+          - "无空Agent目录"
+          - "报告内容完整"
+
+      - id: "check-collaboration"
+        description: "检查05-collaboration-logs目录完整性"
+        files:
+          - "cross-validation-report.md"
+
+      - id: "check-deliverables"
+        description: "检查06-final-deliverables目录完整性"
+        files:
+          - "comprehensive-*-plan-v1.0.md"
+          - "implementation-guide.md"
+          - "assessment-toolkit.md"
+          - "final-research-report.md"
+
+      - id: "check-no-empty"
+        description: "检查无空文件夹"
+        action: "扫描并删除空目录"
+
+# ============================================
+# 整改流程
+# ============================================
+remediation:
+  # 发现问题时的处理流程
+  process:
+    - step: 1
+      action: "记录问题"
+      output: "00-meta/validation-report.md"
+
+    - step: 2
+      action: "分类问题"
+      categories:
+        - "严重问题（必须修复）"
+        - "一般问题（建议修复）"
+        - "优化建议"
+
+    - step: 3
+      action: "生成整改清单"
+      output: "整改任务列表"
+
+    - step: 4
+      action: "执行整改"
+      responsible: "研究协调员"
+
+    - step: 5
+      action: "重新验证"
+      trigger: "整改完成后"
+
+  # 整改优先级
+  priority:
+    critical:
+      - "缺少必需文件"
+      - "存在空文件夹"
+      - "文件内容为空或仅占位符"
+
+    high:
+      - "文件内容不足最小要求"
+      - "缺少必需章节"
+
+    medium:
+      - "格式不规范"
+      - "命名不符合规范"
+
+    low:
+      - "内容可进一步优化"
+
+# ============================================
+# 版本兼容性
+# ============================================
+versionCompatibility:
+  currentVersion: "1.0.0"
+  supportedVersions:
+    - "1.0.0"
+
+  # 版本升级指南
+  upgradeGuide:
+    from_0_9_to_1_0:
+      - "添加critical-review-report.md（可选）"
+      - "增加内容质量检查"
+      - "完善验证机制"

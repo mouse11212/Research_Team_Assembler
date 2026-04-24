@@ -1,0 +1,9 @@
+# Obsidian workspace settings
+.obsidian/
+
+# Claude Code local settings
+.claude/settings.local.json
+.claude/memory/
+
+# Output directory (generated files)
+_bmad-output/

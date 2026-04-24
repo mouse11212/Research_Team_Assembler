@@ -1,0 +1,226 @@
+# Agent动态生成引擎配置
+# Agent Dynamic Generation Engine Configuration
+
+engine:
+  version: "1.0.0"
+  description: "根据研究课题动态生成Agent配置"
+
+# ============================================
+# 生成优先级（从高到低）
+# ============================================
+priority:
+  - id: topic_keywords
+    name: "课题关键词推导"
+    weight: 1.0
+    description: "从课题描述中提取关键词，匹配预设模板"
+
+  - id: literature_review
+    name: "文献综述细化"
+    weight: 0.8
+    description: "从文献综述中识别细分领域，细化Agent配置"
+
+  - id: methodology_flow
+    name: "方法论流程分解"
+    weight: 0.6
+    description: "根据方法论流程阶段，配置方法论Agent"
+
+# ============================================
+# 预设模板匹配规则
+# ============================================
+presetMatching:
+  # 领域关键词 → 模板映射
+  domainMapping:
+    # 自然科学
+    - keywords: ["物理", "量子", "力学", "相对论"]
+      template: "physics-expert"
+      domain: "自然科学/物理学"
+
+    - keywords: ["化学", "分子", "反应", "催化"]
+      template: "chemistry-expert"
+      domain: "自然科学/化学"
+
+    - keywords: ["生物", "基因", "细胞", "生态"]
+      template: "biology-expert"
+      domain: "自然科学/生物学"
+
+    # 社会科学
+    - keywords: ["金融", "投资", "风险", "资产"]
+      template: "finance-expert"
+      domain: "社会科学/金融学"
+
+    - keywords: ["经济", "市场", "贸易", "宏观"]
+      template: "economics-expert"
+      domain: "社会科学/经济学"
+
+    - keywords: ["管理", "组织", "战略", "领导"]
+      template: "management-expert"
+      domain: "社会科学/管理学"
+
+    - keywords: ["历史", "史料", "年代", "文明"]
+      template: "history-expert"
+      domain: "社会科学/历史学"
+
+    - keywords: ["心理", "认知", "行为", "情绪"]
+      template: "psychology-expert"
+      domain: "社会科学/心理学"
+
+    # 工程技术
+    - keywords: ["软件", "算法", "架构", "系统"]
+      template: "software-expert"
+      domain: "工程技术/计算机科学"
+
+    - keywords: ["机械", "结构", "材料", "制造"]
+      template: "mechanical-expert"
+      domain: "工程技术/机械工程"
+
+    # 人文学科
+    - keywords: ["哲学", "伦理", "逻辑", "存在"]
+      template: "philosophy-expert"
+      domain: "人文学科/哲学"
+
+    - keywords: ["文学", "叙事", "文本", "修辞"]
+      template: "literature-expert"
+      domain: "人文学科/文学"
+
+  # 方法论 → Agent映射
+  methodologyMapping:
+    - methodology: "first-principles"
+      requiredAgents:
+        - "first-principles-analyst"
+      optionalAgents:
+        - "evidence-validator"
+
+    - methodology: "systems-thinking"
+      requiredAgents:
+        - "systems-thinker"
+      optionalAgents:
+        - "simulation-specialist"
+
+    - methodology: "dsr-design-science"
+      requiredAgents:
+        - "dsr-designer"
+      optionalAgents:
+        - "prototype-builder"
+        - "evaluation-specialist"
+
+# ============================================
+# 动态生成规则
+# ============================================
+dynamicGeneration:
+  # 触发条件
+  trigger:
+    condition: "预设模板匹配失败或匹配度<0.7"
+    action: "启动动态生成流程"
+
+  # 生成流程
+  process:
+    - step: 1
+      name: "关键词分析"
+      input: "课题描述"
+      output: "关键词列表"
+      actions:
+        - 提取专业术语
+        - 识别领域词汇
+        - 匹配学科分类
+
+    - step: 2
+      name: "领域识别"
+      input: "关键词列表"
+      output: "领域分类"
+      actions:
+        - 匹配学科树
+        - 确定主领域
+        - 识别交叉领域
+
+    - step: 3
+      name: "Agent属性生成"
+      input: "领域分类"
+      output: "Agent配置"
+      actions:
+        - 生成displayName
+        - 定义role
+        - 配置knowledgeDomains
+        - 配置expertiseAreas
+        - 设置researchDomain
+
+    - step: 4
+      name: "验证与优化"
+      input: "Agent配置"
+      output: "最终Agent配置"
+      actions:
+        - 检查必填字段
+        - 验证逻辑一致性
+        - 优化协作模式配置
+
+  # 属性生成规则
+  attributeGeneration:
+    displayName:
+      rule: "{领域名称}专家"
+      example: "量子计算专家"
+
+    role:
+      rule: "{领域名称}研究专家"
+      example: "量子计算研究专家"
+
+    knowledgeDomains:
+      source: "关键词 + 领域分类"
+      minCount: 2
+      maxCount: 5
+
+    expertiseAreas:
+      source: "细分关键词 + 文献综述"
+      minCount: 2
+      maxCount: 4
+
+    researchDomain:
+      rule: "根据领域分类映射到：自然科学/社会科学/工程技术/人文学科/跨学科"
+
+# ============================================
+# 输出格式
+# ============================================
+outputFormat:
+  type: "yaml"
+  structure:
+    - name
+    - displayName
+    - title
+    - icon
+    - category
+    - capabilities
+    - role
+    - identity
+    - communicationStyle
+    - principles
+    - researchAttributes
+    - methodologyBinding (optional)
+
+# ============================================
+# 质量检查
+# ============================================
+qualityCheck:
+  requiredFields:
+    - name
+    - displayName
+    - role
+    - knowledgeDomains
+    - expertiseAreas
+    - researchDomain
+
+  validationRules:
+    - rule: "name必须唯一"
+    - rule: "knowledgeDomains至少2项"
+    - rule: "expertiseAreas至少2项"
+    - rule: "researchDomain必须在预定义分类中"
+
+# ============================================
+# 缓存与复用
+# ============================================
+cache:
+  enabled: true
+  ttl: 86400  # 24小时
+  keyFormat: "agent-{domain}-{keywords-hash}"
+
+  reuse:
+    enabled: true
+    similarityThreshold: 0.8
+    description: "相似课题可复用已生成的Agent配置"

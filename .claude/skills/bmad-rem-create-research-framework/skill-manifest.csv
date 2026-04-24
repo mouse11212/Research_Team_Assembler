@@ -1,0 +1,2 @@
+name,displayName,description,category,icon
+"bmad-rem-create-research-framework","组团研究器","根据研究课题自动创建完整、科学、可落地的研究框架。输入任意研究课题，输出方法论选择、Agent团队配置、协作规则、文件架构和成果模板。","research","🔬"

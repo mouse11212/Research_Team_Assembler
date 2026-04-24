@@ -1,0 +1,14 @@
+# 归档目录
+
+存放历史工作总结的完整内容。
+
+## 目录结构
+```
+archive/
+└── YYYY-MM/              # 按月归档
+    ├── YYYY-MM-DD-xxx.md # 归档文件
+    └── MONTHLY-SUMMARY.md # 月度汇总
+```
+
+## 加载方式
+执行 `/summary-load YYYY-MM-DD` 加载特定日期的详细总结。

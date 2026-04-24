@@ -1,0 +1,144 @@
+# Agent超时处理配置
+# Agent Timeout Handling Configuration
+# 版本: 1.0.0
+
+# ============================================
+# 超时设置
+# ============================================
+timeout:
+  # 默认超时时间（毫秒）
+  defaultTimeout: 300000  # 5分钟
+
+  # 单个Agent最大超时
+  maxAgentTimeout: 600000  # 10分钟
+
+  # 等待结果超时
+  waitResultTimeout: 60000  # 1分钟
+
+# ============================================
+# 超时策略
+# ============================================
+strategies:
+  # 策略1: 部分保存
+  partialSave:
+    enabled: true
+    description: "超时前保存已完成的部分成果"
+    trigger: "执行时间超过80%阈值"
+    action:
+      - "检查Agent输出目录"
+      - "保存已完成的部分内容"
+      - "记录完成进度百分比"
+
+  # 策略2: 简化重试
+  simplifiedRetry:
+    enabled: true
+    description: "使用简化策略重新执行"
+    trigger: "部分保存失败或完成度<50%"
+    action:
+      - "使用简化版prompt"
+      - "缩短输出要求"
+      - "聚焦核心内容"
+
+  # 策略3: 直接产出
+  directOutput:
+    enabled: true
+    description: "协调员直接产出Agent应该完成的内容"
+    trigger: "重试2次仍失败"
+    action:
+      - "由协调员接管"
+      - "直接生成必要的输出"
+      - "标记为'协调员补充'"
+
+# ============================================
+# 恢复流程
+# ============================================
+recovery:
+  # 启用自动恢复
+  autoRecover: true
+
+  # 最大重试次数
+  maxRetries: 2
+
+  # 恢复检查步骤
+  checkSteps:
+    - step: "检查输出目录是否存在"
+      action: "如果不存在则创建"
+
+    - step: "检查部分成果文件"
+      action: "读取并评估完成度"
+
+    - step: "评估内容完整性"
+      criteria:
+        - "是否有标题和结构"
+        - "核心内容是否完整"
+        - "是否可继续补充"
+
+    - step: "决定恢复策略"
+      options:
+        - condition: "完成度>=80%"
+          action: "继续补充"
+        - condition: "完成度50%-80%"
+          action: "简化重试"
+        - condition: "完成度<50%"
+          action: "重新开始"
+
+# ============================================
+# 超时预警
+# ============================================
+warnings:
+  # 执行时间预警
+  executionTime:
+    - threshold: "50%超时阈值"
+      message: "Agent执行时间较长，请注意"
+      action: "记录日志"
+
+    - threshold: "80%超时阈值"
+      message: "Agent即将超时，准备保存进度"
+      action: "准备部分保存"
+
+  # 资源使用预警
+  resourceUsage:
+    - threshold: "高内存使用"
+      message: "Agent资源使用较高"
+      action: "考虑简化策略"
+
+# ============================================
+# Agent状态记录格式
+# ============================================
+agentStatusRecord:
+  # 正常完成
+  completed:
+    status: "completed"
+    outputLocation: "{agent-dir}/reports/"
+    completionTime: "{duration}ms"
+
+  # 超时
+  timeout:
+    status: "timeout"
+    outputLocation: "{agent-dir}/partial/"
+    partialCompletion: "{percentage}%"
+    recoveryStrategy: "{strategy}"
+
+  # 失败
+  failed:
+    status: "failed"
+    errorReason: "{reason}"
+    fallbackAction: "{action}"
+
+# ============================================
+# 部分成果文件格式
+# ============================================
+partialOutputFormat:
+  filename: "partial-output-{timestamp}.md"
+
+  header:
+    - "警告：此文件为部分成果"
+    - "Agent ID: {agent-id}"
+    - "完成度: {percentage}%"
+    - "中断原因: {reason}"
+    - "生成时间: {timestamp}"
+
+  content:
+    - "已完成部分标记：✅"
+    - "未完成部分标记：❌"
+    - "建议补充内容：📝"

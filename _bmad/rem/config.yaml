@@ -1,0 +1,160 @@
+# REM (Research Execution Module) Configuration
+# 研究执行模块配置
+# Version: 2.0.0
+# 基于2026-03-26头脑风暴会话重新设计
+
+# 项目信息
+project_name: Research_Team_Assembler
+module_name: rem
+module_version: 2.0.0
+
+# 用户配置
+user_name: Wuhao
+communication_language: Chinese
+document_output_language: Chinese
+
+# 输出路径配置
+output_folder: "{project-root}/_bmad-output"
+research_projects: "{project-root}/_bmad-output/research-projects"
+templates_output: "{project-root}/_bmad-output/templates"
+
+# ============================================
+# 核心价值：根据研究课题，快速、科学地一键搭建研究框架
+# ============================================
+
+# 研究配置
+research_settings:
+  # 内置方法论
+  builtin_methodologies:
+    - id: first-principles
+      name: 第一性原理
+      description: 从基本真理推导，剥离假设
+      question_type: 根本性问题
+      agent_strategy: preset-primary
+    - id: systems-thinking
+      name: 系统性思维
+      description: 整体视角、要素关系、反馈循环
+      question_type: 系统性问题
+      agent_strategy: preset-dynamic
+    - id: dsr-design-science
+      name: DSR设计科学
+      description: 问题→方案→验证迭代
+      question_type: 实践性问题
+      agent_strategy: preset-dynamic
+
+  # 方法论选择逻辑
+  methodology_selection:
+    primary_factor: question_type  # 主要依据：研究问题类型
+    secondary_factor: expected_output  # 次要依据：预期成果类型
+
+  # Agent生成配置
+  agent_generation:
+    # 生成依据优先级
+    priority_order:
+      - topic_keywords      # 1. 课题关键词推导
+      - literature_review   # 2. 文献综述产出
+      - methodology_flow    # 3. 方法论流程分解
+    # 预设模板路径
+    preset_templates_path: "{module-path}/agents/presets"
+    # 动态生成启用
+    dynamic_generation_enabled: true
+
+# 文献综述配置
+literature_review:
+  # 支持模式
+  modes:
+    - user_provided      # 用户提供文献综述
+    - ai_assisted        # AI辅助文献检索
+  # 外部API配置
+  external_apis:
+    google_scholar:
+      enabled: true
+      cache_enabled: true
+    arxiv:
+      enabled: false
+    semantic_scholar:
+      enabled: false
+
+# 协作机制配置
+collaboration:
+  # 三种协作模式
+  modes:
+    - id: independent_research
+      name: 独立研究
+      trigger: "任务不依赖其他Agent输出"
+      agile_mapping: "Sprint执行期"
+    - id: cross_validation
+      name: 互相印证
+      trigger: "研究结论需多视角验证"
+      agile_mapping: "Review环节"
+      extensions:
+        - validation_criteria
+        - divergence_recording
+    - id: conflict_resolution
+      name: 冲突复盘
+      trigger: "研究观点存在分歧"
+      agile_mapping: "Retrospective环节"
+      extensions:
+        - evidence_collection
+        - consensus_mechanism
+        - re_research_trigger
+
+# 文档状态管理
+state_management:
+  states:
+    - draft          # 草稿：初始撰写中
+    - pending_review # 待审核：等待交叉验证
+    - under_review   # 审核中：正在进行交叉验证
+    - revision       # 修订中：根据审核意见修改
+    - confirmed      # 已确认：验证通过
+    - divergent      # 有分歧：存在未解决分歧
+    - archived       # 已归档：研究完成归档
+  transitions:
+    draft -> pending_review: "Agent完成初稿"
+    pending_review -> under_review: "协调员分配验证任务"
+    under_review -> confirmed: "交叉验证通过，无分歧"
+    under_review -> divergent: "验证后仍有不同观点"
+    under_review -> revision: "发现问题需修改"
+    revision -> pending_review: "修改完成，重新提交"
+    divergent -> confirmed: "分歧解决，达成共识"
+    confirmed -> archived: "研究阶段结束"
+
+# 文件架构配置
+file_architecture:
+  # 研究项目隔离
+  project_isolation: true
+  # 多层级结构
+  hierarchy_levels:
+    - 01-课题定义/
+    - 02-文献综述/
+    - 03-研究设计/
+    - 04-Agent产出/
+    - 05-协作记录/
+    - 06-最终成果/
+
+# 成果模板配置
+templates:
+  types:
+    - id: research_proposal
+      name: 研究计划书
+      phase: 研究设计阶段
+    - id: literature_review
+      name: 文献综述报告
+      phase: 文献综述阶段
+    - id: milestone_report
+      name: 阶段性报告
+      phase: 每个里程碑
+    - id: final_report
+      name: 最终研究报告
+      phase: 研究完成
+      format: IMRAD
+    - id: framework_config
+      name: 研究框架配置
+      phase: 框架搭建阶段
+
+# 知识库配置
+knowledge_base:
+  methodologies_path: "{module-path}/knowledge/methodologies"
+  domains_path: "{module-path}/knowledge/domains"
+  templates_path: "{module-path}/templates"
+  agent_presets_path: "{module-path}/agents/presets"

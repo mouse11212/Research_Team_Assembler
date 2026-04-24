@@ -1,0 +1,202 @@
+# 上下文管理配置
+# Context Management Configuration
+# 版本: 1.0.0
+
+# ============================================
+# 阈值设置
+# ============================================
+thresholds:
+  # 预警阈值 - 开始记录详细进度
+  warning: 50%
+
+  # 早期压缩阈值 - 自动触发压缩建议
+  earlyCompression: 60%
+
+  # 强制压缩阈值 - 必须执行压缩
+  forceCompression: 70%
+
+  # 临界阈值 - 立即保存并停止
+  critical: 85%
+
+# ============================================
+# 自动化策略
+# ============================================
+automation:
+  # 启用提前量压缩
+  proactiveCompression: true
+
+  # 压缩提前量（在达到阈值前多少开始准备）
+  compressionLeadTime: 5%  # 在55%时开始准备60%的压缩
+
+  # 自动保存恢复点
+  autoSaveRecoveryPoint: true
+
+  # 保存间隔（每完成多少步骤保存一次）
+  checkpointInterval: 2  # 每完成2个步骤
+
+# ============================================
+# 各阈值触发动作
+# ============================================
+actions:
+  atWarning:
+    description: "上下文使用达到50%"
+    steps:
+      - action: "记录当前进度到日志"
+        output: "00-meta/progress-log.md"
+      - action: "提示用户注意上下文使用"
+        message: "⚠️ 上下文使用已达50%，建议在合适时机执行/compact"
+      - action: "准备恢复点数据"
+        prepare: true
+
+  atEarlyCompression:
+    description: "上下文使用达到60%"
+    steps:
+      - action: "自动保存恢复点"
+        output: "00-meta/recovery-point.yaml"
+      - action: "提示用户建议压缩"
+        message: "📌 上下文使用已达60%，建议执行/compact以释放空间"
+      - action: "标记当前阶段完成状态"
+        saveState: true
+
+  atForceCompression:
+    description: "上下文使用达到70%"
+    steps:
+      - action: "强制保存所有进度"
+        saveAllProgress: true
+      - action: "生成恢复点文件"
+        output: "00-meta/recovery-point.yaml"
+      - action: "强烈建议压缩"
+        message: "🚨 上下文使用已达70%，请立即执行/compact！已自动保存恢复点。"
+      - action: "暂停新的Agent启动"
+        pauseNewAgents: true
+
+  atCritical:
+    description: "上下文使用达到85%"
+    steps:
+      - action: "紧急保存所有状态"
+        emergencySave: true
+      - action: "生成完整恢复点"
+        output: "00-meta/recovery-point.yaml"
+      - action: "停止所有进行中的任务"
+        stopAllTasks: true
+      - action: "要求用户立即压缩"
+        message: "⛔ 上下文即将耗尽！已保存所有进度。请立即执行/compact后使用'继续'命令恢复研究。"
+
+# ============================================
+# 恢复点文件格式
+# ============================================
+recoveryPointFormat:
+  fileName: "recovery-point.yaml"
+  location: "00-meta/"
+
+  structure:
+    id: "RP-{timestamp}"
+    projectId: "{project-id}"
+    createdAt: "{timestamp}"
+    contextUsage: "{percentage}%"
+
+    currentPhase:
+      name: "{phase-name}"
+      status: "in_progress|paused|completed"
+      progress: "{percentage}%"
+
+    completedSteps:
+      - stepId: "{step-id}"
+        status: "completed"
+        outputFile: "{path}"
+        completedAt: "{timestamp}"
+
+    currentStep:
+      stepId: "{step-id}"
+      status: "in_progress"
+      startedAt: "{timestamp}"
+      progress: "{description}"
+
+    pendingSteps:
+      - "{step-id-1}"
+      - "{step-id-2}"
+
+    agentStates:
+      - agentId: "{agent-id}"
+        status: "completed|in_progress|pending"
+        outputLocation: "{path}"
+        completionPercentage: "{percentage}%"
+
+    resumeInstructions:
+      - "1. 执行/compact压缩上下文"
+      - "2. 告诉AI：'继续研究'"
+      - "3. AI将读取恢复点并继续执行"
+
+# ============================================
+# 检查点设置
+# ============================================
+checkpoints:
+  # 框架创建阶段检查点
+  frameworkCreation:
+    - after: "step-03"  # 文献综述后
+    - after: "step-06"  # 框架设计后
+    - after: "step-10"  # 最终输出后
+
+  # 研究执行阶段检查点
+  researchExecution:
+    - after: "phase-2"  # 独立研究后
+    - after: "phase-3"  # 交叉验证后
+    - after: "each-agent-complete"  # 每个Agent完成后
+
+  # 检查点保存内容
+  checkpointContent:
+    - "当前阶段状态"
+    - "已完成步骤列表"
+    - "Agent完成状态"
+    - "关键文件路径"
+    - "待处理任务列表"
+
+# ============================================
+# 压缩后恢复流程
+# ============================================
+resumeProtocol:
+  trigger: "用户说'继续'或'恢复'"
+
+  steps:
+    - step: 1
+      action: "读取恢复点文件"
+      file: "00-meta/recovery-point.yaml"
+
+    - step: 2
+      action: "读取研究框架配置"
+      file: "research-framework.yaml"
+
+    - step: 3
+      action: "确认当前阶段和进度"
+      output: "向用户确认恢复点信息"
+
+    - step: 4
+      action: "加载必要的上下文"
+      load:
+        - "研究框架概要"
+        - "当前阶段任务"
+        - "待完成步骤"
+
+    - step: 5
+      action: "继续执行"
+      resume: "从断点继续"
+
+# ============================================
+# 上下文使用监控
+# ============================================
+monitoring:
+  # 启用监控
+  enabled: true
+
+  # 监控频率（每完成多少操作检查一次）
+  checkFrequency: 5  # 每5个操作
+
+  # 日志记录
+  logging:
+    enabled: true
+    file: "00-meta/context-log.yaml"
+    format:
+      timestamp: "{timestamp}"
+      contextUsage: "{percentage}%"
+      currentStep: "{step-id}"
+      action: "{action-description}"

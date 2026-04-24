@@ -1,0 +1,302 @@
+# 质量门禁配置
+# Quality Gates Configuration
+# 版本: 1.0.0
+
+# ============================================
+# 概述
+# ============================================
+meta:
+  version: "1.0.0"
+  name: "研究框架质量门禁配置"
+  description: |
+    定义REM研究框架各阶段的质量标准和通过条件。
+    只包含必要的门禁，避免过度检查影响效率。
+  philosophy: "必要的检查，保证质量，不过度检查阻碍进度"
+
+# ============================================
+# 门禁原则
+# ============================================
+principles:
+  - "必要且充分: 只添加必要的门禁
+  - "不过度检查" 銶免过度检查影响研究效率
+  - "自动化优先" 能自动检查的尽量自动化
+  - "明确标准" 每个门禁有清晰的通过/不通过标准
+  - "可追溯性" 门禁结果需记录和备案
+
+  - "可恢复" 提供从失败恢复的机制
+
+# ============================================
+# 门禁配置
+# ============================================
+gates:
+  # 门禁1: 课题定义阶段
+  gate-01-topic-definition:
+    phase: "课题定义"
+    description: "确保课题定义清晰、方法选择合理"
+    timing: "step-01完成后"
+
+    criteria:
+      - id: "topic-clarity"
+        criterion: "课题描述清晰完整"
+        validation:
+          type: "content-check"
+          description: "检查topic-analysis-report.md是否有明确的课题描述"
+        passCondition: "课题描述完整、范围明确"
+        failCondition: "课题描述模糊或范围不清"
+
+        autoFix: false  # 需人工判断
+
+        severity: "critical"
+
+      - id: "methodology-rationale"
+        criterion: "方法论选择有理有据"
+        validation:
+          type: "content-check"
+          description: "检查methodology-selection-report.md是否有充分的方法论论证"
+        passCondition: "方法论选择有论证、备选方案分析"
+        failCondition: "方法论选择缺乏论证"
+        autoFix: false
+        severity: "high"
+
+    passAction:
+      description: "进入文献综述阶段"
+      output: "记录门禁通过时间"
+
+    failAction:
+      description: "返回修改课题定义"
+      output: "记录问题和清单"
+      severity: "high"
+
+    recovery:
+      description: "根据反馈修改课题定义后重新触发门禁"
+
+      steps:
+        - "阅读反馈意见"
+        - "修改课题定义文档"
+        - "重新触发门禁检查"
+
+  # 门禁2: 交叉验证阶段
+  gate-02-cross-validation:
+    phase: "交叉验证"
+    description: "确保Agent输出经过交叉验证"
+    timing: "Phase 3完成后"
+    trigger: "手动"  # 可由协调员在发现问题时手动触发
+
+    criteria:
+      - id: "agent-output-completeness"
+        criterion: "所有Agent都有实质性输出"
+        validation:
+          type: "file-existence"
+          description: "检查04-agent-outputs下每个Agent目录是否有报告文件"
+        passCondition: "所有Agent目录都有至少一个非空报告文件"
+        failCondition: "存在Agent无输出或输出为空"
+        autoFix: false
+        severity: "critical"
+
+        fixSuggestion: "生成或补充缺失的Agent报告"
+
+      - id: "consensus-reached"
+        criterion: "核心共识已达成"
+        validation:
+          type: "content-check"
+          description: "检查cross-validation-report.md是否有共识记录"
+        passCondition: "记录了跨领域共识点"
+        failCondition: "无共识或共识不足"
+        autoFix: true  # 可以记录为弱共识
+        severity: "medium"
+
+        fixSuggestion: "组织协调讨论达成共识"
+
+      - id: "divergence-handled"
+        criterion: "分歧已识别并处理"
+        validation:
+          type: "content-check"
+          description: "检查是否记录了分歧及处理方式"
+        passCondition: "分歧已记录并有处理建议"
+        failCondition: "存在未记录的分歧"
+        autoFix: true
+        severity: "high"
+        fixSuggestion: "组织各方讨论解决分歧"
+    passAction:
+      description: "进入成果整合阶段"
+      output: "记录门禁通过"
+
+    failAction:
+      description: "暂停整合，返回处理分歧"
+      output: "记录分歧清单"
+      severity: "high"
+
+    recovery:
+      description: "组织分歧解决讨论后重新验证"
+      steps:
+        - "组织协调会议"
+        - "更新验证报告"
+        - "重新触发门禁"
+
+  # 门禁3: 最终成果阶段
+  gate-03-final-deliverables:
+    phase: "最终成果输出"
+    description: "确保最终成果完整且符合规范"
+    timing: "step-10输出前"
+    criteria:
+      - id: "required-files-exist"
+        criterion: "所有必需文件存在且有内容"
+        validation:
+          type: "file-existence"
+          description: "检查06-final-deliverables目录下的必需文件"
+        passCondition: "所有必需文件存在且非空"
+        failCondition: "缺少必需文件"
+        autoFix: false
+        severity: "critical"
+        fixSuggestion: "生成缺失的必需文件"
+
+      - id: "no-empty-folders"
+        criterion: "无空文件夹"
+        validation:
+          type: "directory-scan"
+          description: "扫描项目目录检查空文件夹"
+        passCondition: "无空文件夹"
+        failCondition: "存在空文件夹"
+        autoFix: true
+        severity: "medium"
+        fixSuggestion: "删除空文件夹或补充必要文件"
+
+      - id: "no-placeholder-content"
+        criterion: "无占位符内容"
+        validation:
+          type: "content-check"
+          description: "检查文件内容是否包含[待填写]等占位符"
+        passCondition: "无占位符内容"
+        failCondition: "存在占位符内容"
+        autoFix: true
+        severity: "high"
+        fixSuggestion: "填充实际内容替换占位符"
+    passAction:
+      description: "研究框架创建完成"
+      output: "生成最终状态报告"
+
+    failAction:
+      description: "暂停输出，返回修复问题"
+      output: "记录问题清单"
+      severity: "critical"
+
+    recovery:
+      description: "修复问题后重新触发门禁"
+      steps:
+        - "修复问题"
+        - "重新运行门禁检查"
+        - "确认通过后继续"
+
+# ============================================
+# 门禁执行流程
+# ============================================
+execution:
+  # 门禁检查顺序
+  checkOrder:
+    - gate: "gate-01-topic-definition"
+      trigger: "step-01完成"
+      auto: true
+
+    - gate: "gate-02-cross-validation"
+      trigger: "协调员手动触发或Phase 3完成后"
+      auto: false  # 手动触发
+    - gate: "gate-03-final-deliverables"
+      trigger: "step-10输出前"
+      auto: true
+
+  # 检查执行方法
+  checkMethod:
+    - step: 1
+      action: "加载门禁配置"
+      source: "quality-gates.yaml"
+
+    - step: 2
+      action: "执行门禁检查"
+      process:
+        - 飖选对应门禁
+        - 执行验证
+        - 记录结果
+    - step: 3
+      action: "处理结果"
+      conditions:
+        - condition: "通过"
+          action: "继续下一步"
+        - condition: "不通过"
+          action: "执行恢复流程"
+    - step: 4
+      action: "记录门禁结果"
+      output: "00-meta/quality-gate-log.yaml"
+
+  # 恢复流程
+  recovery:
+    - step: 1
+      action: "记录失败原因"
+    - step: 2
+      action: "生成修复建议"
+    - step: 3
+      action: "通知相关方"
+    - step: 4
+      action: "等待修复"
+    - step: 5
+      action: "重新检查"
+
+    - step: 6
+      action: "确认通过或继续失败处理"
+    - step: 7
+      action: "记录恢复结果"
+
+# ============================================
+# 门禁结果记录格式
+# ============================================
+logFormat:
+  file: "00-meta/quality-gate-log.yaml"
+  structure:
+    timestamp: "{ISO-8601时间戳}"
+    gateId: "{门禁ID}"
+    phase: "{阶段名称}"
+    result: "pass|fail"
+    details:
+      - criterion: "{检查项}"
+        status: "pass|fail"
+        message: "{详细信息}"
+    issues:
+      - description: "{问题描述}"
+        severity: "critical|high|medium"
+        suggestion: "{修复建议}"
+    recoveryActions:
+      - description: "{恢复动作}"
+        status: "pending|in_progress|completed"
+
+    nextSteps:
+      - description: "{下一步操作}"
+
+        status: "pending"
+
+# ============================================
+# 门禁配置扩展
+# ============================================
+extensions:
+  # 允许添加自定义门禁
+  customGates: []
+
+  # 门禁严重级别映射
+  severityMapping:
+    critical:
+      action: "必须修复才能继续"
+      blockProgress: true
+    high:
+      action: "建议修复"
+      blockProgress: false
+    medium:
+      action: "可选修复"
+      blockProgress: false
+
+    low:
+      action: "仅记录"
+      blockProgress: false
+
+  # 通知配置
+  notifications:
+    onPass: true
+    onFail: true
+    onRecovery: true
