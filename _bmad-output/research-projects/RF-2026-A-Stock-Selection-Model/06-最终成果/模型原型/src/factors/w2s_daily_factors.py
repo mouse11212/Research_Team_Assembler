@@ -177,6 +177,16 @@ class DailyW2SFactors:
             弱转强评分 (0-100)
         """
         try:
+            # 改进版：有有效多日窗口 → 连续乘性打分
+            window = today_data.get('window_klines')
+            if window and len(window) >= self.lookback_L:
+                weak = self._weak_score(window)
+                strong = self._strong_score(today_data, window)
+                if weak is None or strong is None:
+                    return 0.0   # 整侧不可算 → Fail-Loud 0
+                return round(100.0 * weak * strong, 2)
+            # 否则回落原两日逻辑（向后兼容）↓↓↓（保留下方原有代码不动）
+
             score = 0
 
             # 弱转强判断（昨日弱势 → 今日强势）
