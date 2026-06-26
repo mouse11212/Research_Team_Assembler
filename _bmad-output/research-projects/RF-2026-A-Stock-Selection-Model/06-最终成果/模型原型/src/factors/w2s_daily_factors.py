@@ -127,19 +127,24 @@ class DailyW2SFactors:
         parts.append(max(0.0, min(1.0, pct / self.chg_full)))
         weights.append(self.strong_w[0])
         # ② 量比：今量/窗口均量；1→0, (1+vr_span)→1
-        vols = [w.get('volume') for w in (window or []) if w.get('volume')]
+        #    用 is not None 避免 volume=0.0 被当缺失丢弃（与 _weak_score 口径一致）；
+        #    avg_v>0 兜底避免全 0 量基准导致除零
+        vols = [w.get('volume') for w in (window or []) if w.get('volume') is not None]
         tv = today.get('volume')
-        if vols and tv:
-            vr = tv / (sum(vols) / len(vols))
-            parts.append(max(0.0, min(1.0, (vr - 1.0) / self.vr_span)))
-            weights.append(self.strong_w[1])
+        if vols and tv is not None:
+            avg_v = sum(vols) / len(vols)
+            if avg_v > 0:
+                vr = tv / avg_v
+                parts.append(max(0.0, min(1.0, (vr - 1.0) / self.vr_span)))
+                weights.append(self.strong_w[1])
         # ③ 突破：今收>窗口高点→1；否则今收>ma5→0.5；否则0
-        closes = [w.get('close') for w in (window or []) if w.get('close')]
+        #    用 is not None 避免 close=0.0/ma5=0.0 被当缺失丢弃
+        closes = [w.get('close') for w in (window or []) if w.get('close') is not None]
         tc, tma5 = today.get('close'), today.get('ma5')
-        if closes and tc:
+        if closes and tc is not None:
             if tc > max(closes):
                 brk = 1.0
-            elif tma5 and tc > tma5:
+            elif tma5 is not None and tc > tma5:
                 brk = 0.5
             else:
                 brk = 0.0
