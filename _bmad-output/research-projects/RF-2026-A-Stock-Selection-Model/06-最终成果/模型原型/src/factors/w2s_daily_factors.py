@@ -78,18 +78,22 @@ class DailyW2SFactors:
         """过去L日健康回调分[0,1]；窗口不足L日返None。Fail-Loud:子项缺失则同侧重归一化。"""
         if not window or len(window) < self.lookback_L:
             return None
-        closes = [w.get('close') for w in window if w.get('close')]
+        # I-2: 用 is not None 避免 close=0.0 被当缺失丢弃（与 volume 口径一致）
+        closes = [w.get('close') for w in window if w.get('close') is not None]
         vols = [w.get('volume') for w in window if w.get('volume') is not None]
         if not closes:
             return None
         win_high = max(closes)
-        last_close = closes[-1]
+        # I-1: last_close 直接取自真正末日 window[-1]，与 last_ma20 同源；
+        #       win_high 仍由有效 closes 求 max（健康回调区间）
+        last_close = window[-1].get('close')
         parts, weights = [], []
-        # ① 回调充分度
-        d = (win_high - last_close) / win_high if win_high > 0 else 0.0
-        parts.append(self._trapezoid(d, self.pullback_zlo, self.pullback_lo,
-                                     self.pullback_hi, self.pullback_zhi))
-        weights.append(self.weak_w[0])
+        # ① 回调充分度：last_close 为 None 则该子项按缺失跳过（Fail-Loud）
+        if last_close is not None:
+            d = (win_high - last_close) / win_high if win_high > 0 else 0.0
+            parts.append(self._trapezoid(d, self.pullback_zlo, self.pullback_lo,
+                                         self.pullback_hi, self.pullback_zhi))
+            weights.append(self.weak_w[0])
         # ② 缩量度：近半段均量/前半段均量，rv≤0.6→1, rv≥1.2→0
         if len(vols) >= 2:
             half = len(vols) // 2
@@ -99,9 +103,10 @@ class DailyW2SFactors:
             shrink = max(0.0, min(1.0, (1.2 - rv) / 0.6))
             parts.append(shrink); weights.append(self.weak_w[1])
         # ③ 支撑度：末日收盘 vs ma20，>=ma20→1，低10%→0
+        #    I-3: 用 is not None 避免 ma20=0.0 被误判为缺失
         last_ma20 = window[-1].get('ma20')
-        if last_ma20:
-            pos = (last_close - last_ma20) / last_ma20
+        if last_ma20 is not None and last_close is not None:
+            pos = (last_close - last_ma20) / last_ma20 if last_ma20 != 0 else 0.0
             support = max(0.0, min(1.0, 1.0 + pos / 0.10)) if pos < 0 else 1.0
             parts.append(support); weights.append(self.weak_w[2])
         wsum = sum(weights)
