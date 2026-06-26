@@ -64,6 +64,11 @@ class DailyW2SFactors:
         self.pullback_zhi = self.config.get('w2s_pullback_zhi', 0.25)
         self.weak_w = self.config.get('weak_weights', (0.5, 0.3, 0.2))  # 回调/缩量/支撑
 
+        # 强势参数
+        self.strong_w = self.config.get('strong_weights', (0.4, 0.3, 0.3))  # 涨幅/量比/突破
+        self.chg_full = self.config.get('w2s_chg_full', 10.0)   # 涨幅满分点(%)
+        self.vr_span = self.config.get('w2s_vr_span', 2.0)      # 量比从1→满分的跨度
+
     @staticmethod
     def _trapezoid(x, zlo, lo, hi, zhi):
         if x <= zlo or x >= zhi:
@@ -111,6 +116,36 @@ class DailyW2SFactors:
             parts.append(support); weights.append(self.weak_w[2])
         wsum = sum(weights)
         return sum(p * w for p, w in zip(parts, weights)) / wsum if wsum > 0 else 0.0
+
+    def _strong_score(self, today, window):
+        """今日放量转强分[0,1]。"""
+        pct = today.get('change_pct')
+        if pct is None:
+            return None
+        parts, weights = [], []
+        # ① 涨幅力度：0→0, chg_full→1
+        parts.append(max(0.0, min(1.0, pct / self.chg_full)))
+        weights.append(self.strong_w[0])
+        # ② 量比：今量/窗口均量；1→0, (1+vr_span)→1
+        vols = [w.get('volume') for w in (window or []) if w.get('volume')]
+        tv = today.get('volume')
+        if vols and tv:
+            vr = tv / (sum(vols) / len(vols))
+            parts.append(max(0.0, min(1.0, (vr - 1.0) / self.vr_span)))
+            weights.append(self.strong_w[1])
+        # ③ 突破：今收>窗口高点→1；否则今收>ma5→0.5；否则0
+        closes = [w.get('close') for w in (window or []) if w.get('close')]
+        tc, tma5 = today.get('close'), today.get('ma5')
+        if closes and tc:
+            if tc > max(closes):
+                brk = 1.0
+            elif tma5 and tc > tma5:
+                brk = 0.5
+            else:
+                brk = 0.0
+            parts.append(brk); weights.append(self.strong_w[2])
+        wsum = sum(weights)
+        return sum(p * w for p, w in zip(parts, weights)) / wsum if wsum > 0 else None
 
     def calculate_W2S01(self, today_data: Dict, yesterday_data: Dict) -> float:
         """
