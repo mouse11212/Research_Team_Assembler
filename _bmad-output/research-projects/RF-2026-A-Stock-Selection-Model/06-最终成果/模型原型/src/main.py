@@ -298,6 +298,9 @@ class StockSelectionPipeline:
                                 'above_ma5': float(today_row.get('close_price', 0)) > float(today_row.get('ma5', 0)),
                                 'above_ma10': float(today_row.get('close_price', 0)) > float(today_row.get('ma10', 0)),
                                 'above_ma20': float(today_row.get('close_price', 0)) > float(today_row.get('ma20', 0)),
+                                'ma5': float(today_row.get('ma5', 0) or 0),
+                                'ma10': float(today_row.get('ma10', 0) or 0),
+                                'ma20': float(today_row.get('ma20', 0) or 0),
                             }
                             yesterday_data = {
                                 'change_pct': float(yesterday_row.get('change_pct', 0)),
