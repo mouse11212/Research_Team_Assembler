@@ -69,6 +69,11 @@ class DailyW2SFactors:
         self.chg_full = self.config.get('w2s_chg_full', 10.0)   # 涨幅满分点(%)
         self.vr_span = self.config.get('w2s_vr_span', 2.0)      # 量比从1→满分的跨度
 
+        # W2S02 量价配合参数(本计划)
+        self.w2s02_vr_span = self.config.get('w2s02_vr_span', 1.5)      # 量比满分跨度(vr=2.5封顶)
+        self.w2s02_body_span = self.config.get('w2s02_body_span', 0.05)  # 实体多头度满分跨度
+        self.w2s02_pc_w = self.config.get('w2s02_pc_weights', (0.5, 0.5))  # (实体, 收盘强势)
+
     @staticmethod
     def _trapezoid(x, zlo, lo, hi, zhi):
         if x <= zlo or x >= zhi:
@@ -149,6 +154,35 @@ class DailyW2SFactors:
             else:
                 brk = 0.0
             parts.append(brk); weights.append(self.strong_w[2])
+        wsum = sum(weights)
+        return sum(p * w for p, w in zip(parts, weights)) / wsum if wsum > 0 else None
+
+    def _vol_burst(self, today, window):
+        """量能爆发门控[0,1]:今量/窗口均量,clamp((vr-1)/vr_span,0,1)。不可算返None。"""
+        tv = today.get('volume')
+        vols = [w.get('volume') for w in (window or []) if w.get('volume') is not None]
+        if tv is None or not vols:
+            return None
+        avg_v = sum(vols) / len(vols)
+        if avg_v <= 0:
+            return None
+        vr = tv / avg_v
+        return max(0.0, min(1.0, (vr - 1.0) / self.w2s02_vr_span))
+
+    def _price_confirm(self, today):
+        """价格确认度[0,1]:实体多头度 + 收盘强势度加权。关键字段缺失返None。"""
+        o = today.get('open'); c = today.get('close')
+        h = today.get('high'); l = today.get('low')
+        if o is None or c is None or h is None or l is None:
+            return None
+        parts, weights = [], []
+        # ① 实体多头度:收阳实体越大越高,收阴→0
+        if o > 0:
+            body = max(0.0, min(1.0, (c - o) / o / self.w2s02_body_span))
+            parts.append(body); weights.append(self.w2s02_pc_w[0])
+        # ② 收盘强势度:(close-low)/(high-low);一字板 high==low 守卫=1
+        closepos = 1.0 if h <= l else max(0.0, min(1.0, (c - l) / (h - l)))
+        parts.append(closepos); weights.append(self.w2s02_pc_w[1])
         wsum = sum(weights)
         return sum(p * w for p, w in zip(parts, weights)) / wsum if wsum > 0 else None
 
@@ -252,6 +286,16 @@ class DailyW2SFactors:
             量价弱转强评分 (0-100)
         """
         try:
+            # 改进版:有量价字段 + 有效窗口 → 连续乘性打分(量价配合)
+            window = today_data.get('window_klines')
+            if window and len(window) >= self.lookback_L and today_data.get('open') is not None:
+                vb = self._vol_burst(today_data, window)
+                pc = self._price_confirm(today_data)
+                if vb is None or pc is None:
+                    return None   # 整侧不可算 → Fail-Loud None
+                return round(100.0 * vb * pc, 2)
+            # 否则回落原两日逻辑(向后兼容)↓↓↓(保留下方原有代码不动)
+
             score = 0
 
             today_pct = today_data.get('change_pct', 0)
