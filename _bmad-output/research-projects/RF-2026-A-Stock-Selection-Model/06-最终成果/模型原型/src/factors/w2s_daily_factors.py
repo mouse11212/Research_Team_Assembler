@@ -74,6 +74,11 @@ class DailyW2SFactors:
         self.w2s02_body_span = self.config.get('w2s02_body_span', 0.05)  # 实体多头度满分跨度
         self.w2s02_pc_w = self.config.get('w2s02_pc_weights', (0.5, 0.5))  # (实体, 收盘强势)
 
+        # W2S03 均线趋势参数(本计划)
+        self.w2s03_align_span = self.config.get('w2s03_align_span', 0.02)  # 均线间距满分跨度
+        self.w2s03_pos_span = self.config.get('w2s03_pos_span', 0.03)      # 站位满分跨度
+        self.w2s03_pos_w = self.config.get('w2s03_pos_weights', (0.5, 0.3, 0.2))  # (ma5,ma10,ma20)
+
     @staticmethod
     def _trapezoid(x, zlo, lo, hi, zhi):
         if x <= zlo or x >= zhi:
@@ -183,6 +188,31 @@ class DailyW2SFactors:
         # ② 收盘强势度:(close-low)/(high-low);一字板 high==low 守卫=1
         closepos = 1.0 if h <= l else max(0.0, min(1.0, (c - l) / (h - l)))
         parts.append(closepos); weights.append(self.w2s02_pc_w[1])
+        wsum = sum(weights)
+        return sum(p * w for p, w in zip(parts, weights)) / wsum if wsum > 0 else None
+
+    def _trend_align(self, ma5, ma10, ma20):
+        """多头排列度[0,1]:相邻均线间距连续打分。均线全缺返None。"""
+        S = self.w2s03_align_span
+        parts = []
+        if ma5 is not None and ma10 is not None and ma10 > 0:
+            parts.append(max(0.0, min(1.0, (ma5 - ma10) / ma10 / S)))
+        if ma10 is not None and ma20 is not None and ma20 > 0:
+            parts.append(max(0.0, min(1.0, (ma10 - ma20) / ma20 / S)))
+        if not parts:
+            return None
+        return sum(parts) / len(parts)
+
+    def _ma_position(self, close, ma5, ma10, ma20):
+        """站位度[0,1]:close相对各均线距离加权。close缺或均线全缺返None。"""
+        if close is None:
+            return None
+        P = self.w2s03_pos_span
+        parts, weights = [], []
+        for ma, wi in zip((ma5, ma10, ma20), self.w2s03_pos_w):
+            if ma is not None and ma > 0:
+                parts.append(max(0.0, min(1.0, (close - ma) / ma / P)))
+                weights.append(wi)
         wsum = sum(weights)
         return sum(p * w for p, w in zip(parts, weights)) / wsum if wsum > 0 else None
 
@@ -342,6 +372,17 @@ class DailyW2SFactors:
             技术弱转强评分 (0-100)
         """
         try:
+            # 改进版:有 ma 数值 → 连续乘性打分(均线趋势结构)
+            ma5 = today_data.get('ma5'); ma10 = today_data.get('ma10'); ma20 = today_data.get('ma20')
+            close = today_data.get('close')
+            if ma5 is not None and ma10 is not None and ma20 is not None and close is not None:
+                ta = self._trend_align(ma5, ma10, ma20)
+                mp = self._ma_position(close, ma5, ma10, ma20)
+                if ta is None or mp is None:
+                    return None   # 整侧不可算 → Fail-Loud None
+                return round(100.0 * ta * mp, 2)
+            # 否则回落原 above_maX 二值逻辑(向后兼容)↓↓↓(保留下方原有代码不动)
+
             score = 0
 
             # 突破5日线
