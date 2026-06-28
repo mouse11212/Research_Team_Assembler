@@ -394,8 +394,11 @@ class StockSelectionPipeline:
 
             signals = []
             try:
+                # 修复 daily/回测不一致:用真实情绪评分(对齐 backtest 的 market_env.emotion_score),
+                # 替代此前硬编码 65;emotion_score 缺失时回退 65 防御。
                 raw_signals = self.signal_generator.generate_signals(
-                    factor_inputs, emotion_temperature=65
+                    factor_inputs,
+                    emotion_temperature=(market_env.get('emotion_score') or 65)
                 )
                 for signal in raw_signals:
                     # 从 factor_results 匹配 sector
@@ -589,6 +592,7 @@ class StockSelectionPipeline:
 
         emotion_phase = market_env.emotion_phase
         position_multiplier = market_env.position_multiplier
+        emotion_score = market_env.emotion_score  # 修复:此前漏放进返回字典,致 daily emotion_score=None
 
         # TODO: 接入真实的指数数据和历史序列
         index_data = None
@@ -604,6 +608,7 @@ class StockSelectionPipeline:
 
         return {
             'emotion_phase': emotion_phase.value,
+            'emotion_score': emotion_score,
             'position_multiplier': position_multiplier,
             'bull_bear_type': bull_bear.get('market_type', 'neutral'),
             'bull_bear_confidence': bull_bear.get('confidence', 0),
