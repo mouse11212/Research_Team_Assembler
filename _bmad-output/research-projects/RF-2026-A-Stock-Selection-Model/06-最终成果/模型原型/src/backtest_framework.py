@@ -259,6 +259,9 @@ class BacktestEngine:
                 _chg = pd.to_numeric(spot_df['change_pct'], errors='coerce')
                 cand = spot_df[_chg >= 5.0].copy()
                 if not cand.empty:
+                    # 弱转强准入门槛(spec 13):与选股路径统一,回测也经门槛(否则回测/选股活跃池逻辑分叉)
+                    cand = self.fetcher._filter_by_w2s01_gate(cand, trade_date, self.fetcher.w2s01_gate)
+                if cand is not None and not cand.empty:
                     spot_df = self.fetcher._rank_by_leader_strength(cand, trade_date).head(100)
                 else:
                     spot_df = spot_df.sort_values('change_pct', ascending=False).head(100)
