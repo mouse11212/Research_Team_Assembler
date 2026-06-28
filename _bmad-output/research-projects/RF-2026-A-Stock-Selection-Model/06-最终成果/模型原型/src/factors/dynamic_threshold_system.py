@@ -157,13 +157,14 @@ class DynamicThresholdSystem:
             信号类型
         """
         try:
-            if score >= thresholds.get('strong_buy', 80):
+            # 兜底默认值同步 _get_default_thresholds 的校准值(thresholds 缺键时才用,正常路径传完整字典)
+            if score >= thresholds.get('strong_buy', 47):
                 return 'strong_buy'
-            elif score >= thresholds.get('buy', 60):
+            elif score >= thresholds.get('buy', 44):
                 return 'buy'
-            elif score >= thresholds.get('hold', 40):
+            elif score >= thresholds.get('hold', 35):
                 return 'hold'
-            elif score >= thresholds.get('sell', 20):
+            elif score >= thresholds.get('sell', 25):
                 return 'sell'
             else:
                 return 'strong_sell'

@@ -292,7 +292,7 @@ class DailyW2SFactors:
 
         except Exception as e:
             logger.warning(f"[错误] W2S01计算失败: {e}")
-            return 0.0
+            return None  # Fail-Loud:计算异常=数据无效,返None由上层剔除重归一化(与W2S05一致,CLAUDE.md§四.3)
 
     def calculate_W2S02(self, today_data: Dict, yesterday_data: Dict) -> float:
         """
@@ -354,7 +354,7 @@ class DailyW2SFactors:
 
         except Exception as e:
             logger.warning(f"[错误] W2S02计算失败: {e}")
-            return 0.0
+            return None  # Fail-Loud:计算异常=数据无效,返None由上层剔除重归一化(与W2S05一致,CLAUDE.md§四.3)
 
     def calculate_W2S03(self, today_data: Dict, yesterday_data: Dict) -> float:
         """
@@ -421,7 +421,7 @@ class DailyW2SFactors:
 
         except Exception as e:
             logger.warning(f"[错误] W2S03计算失败: {e}")
-            return 0.0
+            return None  # Fail-Loud:计算异常=数据无效,返None由上层剔除重归一化(与W2S05一致,CLAUDE.md§四.3)
 
     def calculate_W2S04(self, today_flow: float, yesterday_flow: float) -> float:
         """
@@ -467,7 +467,7 @@ class DailyW2SFactors:
 
         except Exception as e:
             logger.warning(f"[错误] W2S04计算失败: {e}")
-            return 0.0
+            return None  # Fail-Loud:计算异常=数据无效,返None由上层剔除重归一化(与W2S05一致,CLAUDE.md§四.3)
 
     def calculate_W2S05(self, news_sentiment_change: float) -> float:
         """
@@ -548,7 +548,7 @@ class DailyW2SFactors:
 
         except Exception as e:
             logger.warning(f"[错误] W2S06计算失败: {e}")
-            return 0.0
+            return None  # Fail-Loud:计算异常=数据无效,返None由上层剔除重归一化(与W2S05一致,CLAUDE.md§四.3)
 
     def calculate_all_factors(self, today_data: Dict, yesterday_data: Dict,
                                sector_data: Optional[Dict] = None,
