@@ -398,7 +398,8 @@ class StockSelectionPipeline:
                 # 替代此前硬编码 65;emotion_score 缺失时回退 65 防御。
                 raw_signals = self.signal_generator.generate_signals(
                     factor_inputs,
-                    emotion_temperature=(market_env.get('emotion_score') or 65)
+                    emotion_temperature=(market_env.get('emotion_score')
+                                         if market_env.get('emotion_score') is not None else 65)
                 )
                 for signal in raw_signals:
                     # 从 factor_results 匹配 sector

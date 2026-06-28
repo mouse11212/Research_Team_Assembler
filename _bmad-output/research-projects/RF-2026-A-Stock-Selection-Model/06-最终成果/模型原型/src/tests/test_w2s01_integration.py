@@ -33,8 +33,16 @@ def test_backward_compat_when_no_window():
     yest = {'change_pct': 1.0, 'volume': 100, 'above_ma5': False}
     assert f.calculate_W2S01(today, yest) >= 50
 
+def test_window_present_but_uncomputable_returns_none():
+    # IMPORTANT-1(final review)：有效窗口但子分不可算(close全None→_weak_score返None)→
+    # Fail-Loud返None(非0.0),对齐W2S02/03,由signal_generator剔除重归一化,不拉低最大权重因子。
+    window = [{'close': None, 'volume': 100, 'ma20': 9.0} for _ in range(5)]
+    today = {'change_pct': 9.0, 'volume': 300, 'close': 10.5, 'ma5': 9.6, 'window_klines': window}
+    assert f.calculate_W2S01(today, {}) is None, f.calculate_W2S01(today, {})
+
 if __name__ == '__main__':
     test_high_level_stagnation_scored_near_zero()
     test_healthy_pullback_then_strong_high_score()
     test_continuity_no_cliff(); test_backward_compat_when_no_window()
+    test_window_present_but_uncomputable_returns_none()
     print('PASS test_w2s01_integration')

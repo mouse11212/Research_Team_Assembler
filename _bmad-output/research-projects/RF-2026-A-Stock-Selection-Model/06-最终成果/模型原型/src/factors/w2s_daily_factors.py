@@ -247,7 +247,7 @@ class DailyW2SFactors:
                 weak = self._weak_score(window)
                 strong = self._strong_score(today_data, window)
                 if weak is None or strong is None:
-                    return 0.0   # 整侧不可算 → Fail-Loud 0
+                    return None   # 整侧不可算 → Fail-Loud None(对齐W2S02/03;CLAUDE.md§四.3禁中性/0伪装,由signal_generator剔除重归一化,避免拉低最大权重因子)
                 return round(100.0 * weak * strong, 2)
             # 否则回落原两日逻辑（向后兼容）↓↓↓（保留下方原有代码不动）
 
