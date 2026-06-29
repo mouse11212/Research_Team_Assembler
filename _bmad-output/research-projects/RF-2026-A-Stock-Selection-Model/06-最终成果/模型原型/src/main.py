@@ -126,6 +126,8 @@ class StockSelectionPipeline:
         self.output_dir = output_dir
         # 次日推荐数量（策略参数，来自 config.signal.recommend_count；默认 3 向后兼容）
         self.recommend_count = recommend_count
+        # 主板配额(用户约束):Top-N 中主板(60/00开头)至少 min_main_board 只;不足软处理(有几只放几只+警告)
+        self.min_main_board = int(os.environ.get('QSS_MIN_MAIN_BOARD', '3'))
 
         # 创建输出目录
         os.makedirs(os.path.join(output_dir, 'reports'), exist_ok=True)
@@ -438,9 +440,8 @@ class StockSelectionPipeline:
             # 按得分排序
             signals_sorted = sorted(signals, key=lambda x: x['composite_score'], reverse=True)
 
-            # 同板块最多1只
-            recommended = self.risk_manager.apply_correlation_filter(signals_sorted, max_per_sector=1)
-            recommended = recommended[:self.recommend_count]
+            # 板块配额(用户约束):Top-N 中主板≥min_main_board,不足软处理;剩余按综合分填(含创业板)
+            recommended = self._apply_board_quota(signals_sorted, self.recommend_count, self.min_main_board)
 
             result.recommended_stocks = recommended
 
@@ -549,6 +550,29 @@ class StockSelectionPipeline:
             except Exception:
                 pass
             return result
+
+    @staticmethod
+    def _is_main_board(code: str) -> bool:
+        """主板 = 沪深主板(60/00开头);非主板 = 创业板(300/301)/科创板(688/689)/北交所(8/4)。"""
+        s = str(code)
+        return not s.startswith(('300', '301', '688', '689', '8', '4'))
+
+    def _apply_board_quota(self, signals_sorted, count, min_main):
+        """板块配额(用户约束):Top-count 中主板>=min_main。
+        先取综合分最高的 min_main 只主板(不足则有几只放几只+警告),剩余名额按综合分从其余票(含创业板)填,
+        最后按综合分重排。signals_sorted 须已按 composite_score 降序。"""
+        mains = [s for s in signals_sorted if self._is_main_board(s['code'])]
+        picked = mains[:min_main]
+        if len(picked) < min_main:
+            logger.warning(f"[板块配额] 主板弱转强票仅 {len(picked)} 只(<{min_main}),软处理:有几只放几只,剩余创业板补满")
+        picked_codes = {s['code'] for s in picked}
+        for s in signals_sorted:  # 剩余名额按综合分填(含创业板 + 未入选主板)
+            if len(picked) >= count:
+                break
+            if s['code'] not in picked_codes:
+                picked.append(s)
+                picked_codes.add(s['code'])
+        return sorted(picked, key=lambda x: x['composite_score'], reverse=True)
 
     def _analyze_market_environment(self, trade_date: str) -> Dict[str, Any]:
         """
