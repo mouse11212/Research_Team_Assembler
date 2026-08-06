@@ -23,7 +23,7 @@ description: 增量同步A股数据到最新交易日（K线/情绪/龙虎榜/�
 ## 前置事实
 
 - 规范库：`06-最终成果/模型原型/src/data/stock_history.db`（WAL；任何新连接 `PRAGMA busy_timeout=60000`）
-- 所有命令工作目录=`06-最终成果/模型原型/src`（= `06-最终成果/模型原型/src`）
+- 所有命令工作目录=`06-最终成果/模型原型/src`
 - 提交 `06-最终成果/模型原型/src` 内文件需 `git add -f`（`_bmad-output/` 被 gitignore）
 
 ## 五阶段流程

@@ -1,6 +1,6 @@
 # Agent Prompt 模板库
 
-用法：复制模板 → 替换占位符（`{OFFSET}`/`{LIMIT}`/`{GAP_START}`/`{GAP_END}`/`{TODAY}`，均 YYYYMMDD）→ 以 general-purpose 后台 Agent 启动。`{SRC}` = 模型原型 src 绝对路径。所有 worker 的最终文本=给编排者的结构化报告。
+用法：复制模板 → 替换占位符（`{OFFSET}`/`{LIMIT}`/`{GAP_START}`/`{GAP_END}`/`{TODAY}`，均 YYYYMMDD；`{i}`=分片号0-5）→ 以 general-purpose 后台 Agent 启动。`{SRC}` = 模型原型 src 绝对路径。所有 worker 的最终文本=给编排者的结构化报告。
 
 ## 1. 分析师监督Agent（全程常驻，SendMessage 续话）
 

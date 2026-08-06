@@ -13,7 +13,7 @@
 cd 06-最终成果/模型原型/src
 # 概念映射断点续传（断点=已尝试概念数，worker报告给出）
 caffeinate -i python3 data/sync_stock_concept.py --offset {断点}
-# 龙虎榜净买额补跑（只UPDATE缺net_buy的行；WENCAI_INTERVAL调节奏，默认≥5s；连续2败自中止）
+# 龙虎榜净买额补跑（只UPDATE缺net_buy的行；`WENCAI_INTERVAL`调节奏（默认12s，可调小但≥5s）；连续2败自中止）
 WENCAI_INTERVAL=8 python3 data/backfill_dragon_tiger_enrich_retry.py {日期1} {日期2} ...
 # 注意：backfill_dragon_tiger_enrich_retry.py 为 2026-08-04 会话所建；若缺口不同，参照
 # data/backfill_dragon_tiger_20260804.py 模式新写（串行/限频/连败降级/Fail-Loud/busy_timeout=60000）。

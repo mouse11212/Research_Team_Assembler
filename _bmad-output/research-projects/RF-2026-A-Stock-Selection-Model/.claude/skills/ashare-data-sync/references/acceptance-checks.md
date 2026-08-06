@@ -1,6 +1,6 @@
 # 验收 SQL 清单与判据
 
-执行位置：`{SRC}` 下 `sqlite3 data/stock_history.db "<SQL>"`。`{GAP_START}`/`{GAP_END}`/`{TODAY}` 同 agent-prompts.md 约定。
+执行位置：`{SRC}` 下 `sqlite3 data/stock_history.db "<SQL>"`。`{GAP_START}`/`{GAP_END}`/`{TODAY}` 同 agent-prompts.md 约定；本文件另用 `{抽查日}`（B节对账日）、`{TODAY前一日}`（D节刷新行数比较的日期下限）、`{断点}`（概念续传offset）。
 
 ## A. K线
 
