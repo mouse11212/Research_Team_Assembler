@@ -1,0 +1,11 @@
+/Users/gourouhundun/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+[同步] 全局DB最新=20260811 结束=20260811 待处理=926只 主源=tencent 起步=0.45s→0.12s (per-stock增量)
+  [200/926] ok=200 skip=0 fail=0 备源=0 行=1192 delay=0.12s 用时=70s
+  [400/926] ok=400 skip=0 fail=0 备源=0 行=2387 delay=0.12s 用时=139s
+  [600/926] ok=600 skip=0 fail=0 备源=0 行=3567 delay=0.12s 用时=208s
+  [800/926] ok=800 skip=0 fail=0 备源=0 行=4762 delay=0.12s 用时=275s
+[MA] 重算受影响股票均线…
+============================================================
+完成 ok=926 skip=0 fail=0 备源=0 新增行=5517 MA更新=5517
+DB最新=20260811（覆盖5189只）总行=925697 用时=319s
