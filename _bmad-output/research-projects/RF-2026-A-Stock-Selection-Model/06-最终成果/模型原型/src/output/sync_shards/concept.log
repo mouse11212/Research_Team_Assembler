@@ -1,449 +1,122 @@
-2026-08-11 22:43:54 [[32mINFO[0m] __main__ - ============================================================
-2026-08-11 22:43:54 [[32mINFO[0m] __main__ - 同步 stock_concept_map（概念弹性层 · P1适配层 ths+pywencai，绕开eastmoney）
+2026-08-13 00:18:56 [[32mINFO[0m] __main__ - ============================================================
+2026-08-13 00:18:56 [[32mINFO[0m] __main__ - 同步 stock_concept_map（概念弹性层 · P1适配层 ths+pywencai，绕开eastmoney）
 /Users/gourouhundun/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
   warnings.warn(
-2026-08-11 22:43:54 [[32mINFO[0m] data.source_adapters - [akshare_ths] 概念清单
-  0%|          | 0/39 [00:00<?, ?it/s]  5%|▌         | 2/39 [00:00<00:03,  9.94it/s]  8%|▊         | 3/39 [00:00<00:04,  8.01it/s] 10%|█         | 4/39 [00:00<00:04,  8.16it/s] 13%|█▎        | 5/39 [00:00<00:04,  8.27it/s] 15%|█▌        | 6/39 [00:00<00:04,  6.95it/s] 18%|█▊        | 7/39 [00:00<00:04,  6.77it/s] 21%|██        | 8/39 [00:01<00:04,  6.58it/s] 23%|██▎       | 9/39 [00:01<00:04,  6.53it/s] 26%|██▌       | 10/39 [00:01<00:04,  6.32it/s] 28%|██▊       | 11/39 [00:01<00:04,  6.78it/s] 31%|███       | 12/39 [00:01<00:03,  7.29it/s] 33%|███▎      | 13/39 [00:01<00:03,  7.62it/s] 36%|███▌      | 14/39 [00:01<00:03,  7.99it/s] 38%|███▊      | 15/39 [00:02<00:02,  8.32it/s] 41%|████      | 16/39 [00:02<00:02,  8.43it/s] 44%|████▎     | 17/39 [00:02<00:02,  8.51it/s] 46%|████▌     | 18/39 [00:02<00:02,  7.91it/s] 49%|████▊     | 19/39 [00:02<00:02,  8.06it/s] 51%|█████▏    | 20/39 [00:02<00:02,  8.37it/s] 54%|█████▍    | 21/39 [00:02<00:02,  8.62it/s] 56%|█████▋    | 22/39 [00:02<00:01,  8.70it/s] 59%|█████▉    | 23/39 [00:02<00:01,  8.71it/s] 62%|██████▏   | 24/39 [00:03<00:01,  8.63it/s] 64%|██████▍   | 25/39 [00:03<00:01,  8.76it/s] 67%|██████▋   | 26/39 [00:03<00:01,  8.87it/s] 69%|██████▉   | 27/39 [00:03<00:01,  8.89it/s] 72%|███████▏  | 28/39 [00:03<00:01,  8.90it/s] 74%|███████▍  | 29/39 [00:03<00:01,  8.91it/s] 77%|███████▋  | 30/39 [00:03<00:01,  8.80it/s] 79%|███████▉  | 31/39 [00:03<00:00,  8.71it/s] 82%|████████▏ | 32/39 [00:03<00:00,  8.88it/s] 85%|████████▍ | 33/39 [00:04<00:00,  8.86it/s] 87%|████████▋ | 34/39 [00:04<00:00,  8.94it/s] 90%|████████▉ | 35/39 [00:04<00:00,  8.84it/s] 92%|█████████▏| 36/39 [00:04<00:00,  8.98it/s] 95%|█████████▍| 37/39 [00:04<00:00,  8.95it/s] 97%|█████████▋| 38/39 [00:04<00:00,  8.89it/s]100%|██████████| 39/39 [00:04<00:00,  8.23it/s]                                               2026-08-11 22:44:00 [[32mINFO[0m] __main__ -   待处理概念 162 个（offset=213），逐个取成分并即时落库…
-2026-08-11 22:44:00 [[32mINFO[0m] data.source_adapters - [wencai] 查询: 石墨烯概念成分股
-(node:59511) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-08-13 00:18:56 [[32mINFO[0m] data.source_adapters - [akshare_ths] 概念清单
+  0%|          | 0/39 [00:00<?, ?it/s]  5%|▌         | 2/39 [00:00<00:02, 12.65it/s] 10%|█         | 4/39 [00:00<00:02, 11.95it/s] 15%|█▌        | 6/39 [00:00<00:03, 10.20it/s] 21%|██        | 8/39 [00:00<00:03,  8.40it/s] 23%|██▎       | 9/39 [00:01<00:03,  7.83it/s] 26%|██▌       | 10/39 [00:01<00:03,  7.54it/s] 28%|██▊       | 11/39 [00:01<00:03,  7.25it/s] 31%|███       | 12/39 [00:01<00:03,  6.94it/s] 33%|███▎      | 13/39 [00:01<00:04,  6.47it/s] 36%|███▌      | 14/39 [00:01<00:03,  6.39it/s] 38%|███▊      | 15/39 [00:01<00:03,  6.95it/s] 41%|████      | 16/39 [00:02<00:03,  6.81it/s] 44%|████▎     | 17/39 [00:02<00:03,  7.32it/s] 46%|████▌     | 18/39 [00:02<00:02,  7.77it/s] 49%|████▊     | 19/39 [00:02<00:02,  8.17it/s] 51%|█████▏    | 20/39 [00:02<00:02,  8.50it/s] 54%|█████▍    | 21/39 [00:02<00:02,  8.77it/s] 56%|█████▋    | 22/39 [00:02<00:01,  8.81it/s] 59%|█████▉    | 23/39 [00:02<00:01,  8.76it/s] 62%|██████▏   | 24/39 [00:02<00:01,  8.80it/s] 64%|██████▍   | 25/39 [00:03<00:01,  8.85it/s] 67%|██████▋   | 26/39 [00:03<00:01,  8.84it/s] 69%|██████▉   | 27/39 [00:03<00:01,  8.84it/s] 72%|███████▏  | 28/39 [00:03<00:01,  8.81it/s] 74%|███████▍  | 29/39 [00:03<00:01,  8.81it/s] 77%|███████▋  | 30/39 [00:03<00:01,  8.85it/s] 79%|███████▉  | 31/39 [00:03<00:00,  8.80it/s] 82%|████████▏ | 32/39 [00:03<00:00,  8.88it/s] 85%|████████▍ | 33/39 [00:04<00:00,  8.27it/s] 87%|████████▋ | 34/39 [00:04<00:00,  8.42it/s] 90%|████████▉ | 35/39 [00:04<00:00,  8.57it/s] 92%|█████████▏| 36/39 [00:04<00:00,  8.45it/s] 95%|█████████▍| 37/39 [00:04<00:00,  8.62it/s] 97%|█████████▋| 38/39 [00:04<00:00,  8.74it/s]100%|██████████| 39/39 [00:04<00:00,  8.79it/s]                                               2026-08-13 00:19:01 [[32mINFO[0m] __main__ -   待处理概念 138 个（offset=237），逐个取成分并即时落库…
+2026-08-13 00:19:01 [[32mINFO[0m] data.source_adapters - [wencai] 查询: 腾讯概念成分股
+(node:42060) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59514) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42064) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-2026-08-11 22:44:02 [[32mINFO[0m] data.source_adapters - [wencai] 查询: 食品安全概念成分股
-(node:59518) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42065) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59520) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42068) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-2026-08-11 22:44:04 [[32mINFO[0m] data.source_adapters - [wencai] 查询: 手机游戏概念成分股
-(node:59521) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42069) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59522) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42070) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59523) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42071) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59524) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42072) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59525) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42073) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59528) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42074) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59529) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-08-13 00:19:04 [[33mWARNING[0m] data.multi_source_fetcher - [concept] 问财 腾讯概念 失败: 'NoneType' object has no attribute 'get'
+2026-08-13 00:19:04 [[33mWARNING[0m] __main__ -     概念 [腾讯概念] 成分为空（跳过，不计失败；连续空/败 1/5）
+2026-08-13 00:19:04 [[32mINFO[0m] data.source_adapters - [wencai] 查询: 特色小镇概念成分股
+(node:42077) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59530) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42078) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59531) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42079) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59532) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42080) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-2026-08-11 22:44:08 [[32mINFO[0m] data.source_adapters - [wencai] 查询: 水利概念成分股
-(node:59535) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42081) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59536) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42082) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59537) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42083) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59538) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42084) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-2026-08-11 22:44:10 [[32mINFO[0m] data.source_adapters - [wencai] 查询: 水泥概念成分股
-(node:59541) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42085) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59542) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42086) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59543) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-08-13 00:19:07 [[33mWARNING[0m] data.multi_source_fetcher - [concept] 问财 特色小镇 失败: 'NoneType' object has no attribute 'get'
+2026-08-13 00:19:07 [[33mWARNING[0m] __main__ -     概念 [特色小镇] 成分为空（跳过，不计失败；连续空/败 2/5）
+2026-08-13 00:19:07 [[32mINFO[0m] data.source_adapters - [wencai] 查询: 特斯拉概念成分股
+(node:42089) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59546) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42090) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-2026-08-11 22:44:12 [[32mINFO[0m] data.source_adapters - [wencai] 查询: 数据安全概念成分股
-(node:59547) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42091) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59549) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42092) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59551) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42093) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-2026-08-11 22:44:16 [[32mINFO[0m] data.source_adapters - [wencai] 查询: 数据确权概念成分股
-(node:59558) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42094) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59559) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42095) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59560) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42098) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59562) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42099) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59563) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42100) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-2026-08-11 22:44:19 [[32mINFO[0m] data.source_adapters - [wencai] 查询: 数据要素概念成分股
-(node:59564) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-08-13 00:19:09 [[33mWARNING[0m] data.multi_source_fetcher - [concept] 问财 特斯拉概念 失败: 'NoneType' object has no attribute 'get'
+2026-08-13 00:19:09 [[33mWARNING[0m] __main__ -     概念 [特斯拉概念] 成分为空（跳过，不计失败；连续空/败 3/5）
+2026-08-13 00:19:10 [[32mINFO[0m] data.source_adapters - [wencai] 查询: 天津自贸区概念成分股
+(node:42101) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59565) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42102) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-2026-08-11 22:44:22 [[32mINFO[0m] data.source_adapters - [wencai] 查询: 数据中心(AIDC)概念成分股
-(node:59568) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42103) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59569) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42106) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59570) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42107) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59571) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42108) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59573) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42109) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-2026-08-11 22:44:24 [[32mINFO[0m] data.source_adapters - [wencai] 查询: 数字货币概念成分股
-(node:59574) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42110) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59575) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42111) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59576) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42114) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59577) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-08-13 00:19:12 [[33mWARNING[0m] data.multi_source_fetcher - [concept] 问财 天津自贸区 失败: 'NoneType' object has no attribute 'get'
+2026-08-13 00:19:12 [[33mWARNING[0m] __main__ -     概念 [天津自贸区] 成分为空（跳过，不计失败；连续空/败 4/5）
+2026-08-13 00:19:13 [[32mINFO[0m] data.source_adapters - [wencai] 查询: 天然气概念成分股
+(node:42115) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59580) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42116) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59581) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42117) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59582) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42118) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-2026-08-11 22:44:28 [[32mINFO[0m] __main__ -     进度 10/162：[数字货币] 91行，累计 823 行
-2026-08-11 22:44:28 [[32mINFO[0m] data.source_adapters - [wencai] 查询: 数字经济概念成分股
-(node:59584) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42121) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59585) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42122) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59586) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42123) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59587) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42124) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59588) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42125) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59589) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:42126) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59590) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59591) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59594) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59595) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59596) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59597) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-2026-08-11 22:44:32 [[33mWARNING[0m] __main__ -     概念 [数字经济] 成分为空（跳过，不计失败）
-2026-08-11 22:44:32 [[32mINFO[0m] data.source_adapters - [wencai] 查询: 数字孪生概念成分股
-(node:59598) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59599) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59601) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59602) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59603) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59604) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59605) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59606) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59607) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59608) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-2026-08-11 22:44:35 [[33mWARNING[0m] data.multi_source_fetcher - [concept] 问财 数字孪生 失败: 'NoneType' object has no attribute 'get'
-2026-08-11 22:44:35 [[33mWARNING[0m] __main__ -     概念 [数字孪生] 成分为空（跳过，不计失败）
-2026-08-11 22:44:35 [[32mINFO[0m] data.source_adapters - [wencai] 查询: 数字水印概念成分股
-(node:59609) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59610) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59611) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59612) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59613) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59616) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59617) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59618) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59619) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59620) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-2026-08-11 22:44:37 [[33mWARNING[0m] data.multi_source_fetcher - [concept] 问财 数字水印 失败: 'NoneType' object has no attribute 'get'
-2026-08-11 22:44:37 [[33mWARNING[0m] __main__ -     概念 [数字水印] 成分为空（跳过，不计失败）
-2026-08-11 22:44:38 [[32mINFO[0m] data.source_adapters - [wencai] 查询: 数字乡村概念成分股
-(node:59621) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59623) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59624) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59625) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59626) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59627) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59628) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59629) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59632) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59633) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-2026-08-11 22:44:40 [[33mWARNING[0m] data.multi_source_fetcher - [concept] 问财 数字乡村 失败: 'NoneType' object has no attribute 'get'
-2026-08-11 22:44:40 [[33mWARNING[0m] __main__ -     概念 [数字乡村] 成分为空（跳过，不计失败）
-2026-08-11 22:44:41 [[32mINFO[0m] data.source_adapters - [wencai] 查询: AI视频概念成分股
-(node:59634) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59635) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59638) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59650) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59651) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59652) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59653) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59654) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59655) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59656) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-2026-08-11 22:44:43 [[33mWARNING[0m] data.multi_source_fetcher - [concept] 问财 AI视频 失败: 'NoneType' object has no attribute 'get'
-2026-08-11 22:44:43 [[33mWARNING[0m] __main__ -     概念 [AI视频] 成分为空（跳过，不计失败）
-2026-08-11 22:44:43 [[32mINFO[0m] data.source_adapters - [wencai] 查询: ST板块概念成分股
-(node:59658) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59659) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59660) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59661) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59662) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59663) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59664) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59665) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59675) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59677) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-2026-08-11 22:44:45 [[33mWARNING[0m] data.multi_source_fetcher - [concept] 问财 ST板块 失败: 'NoneType' object has no attribute 'get'
-2026-08-11 22:44:45 [[33mWARNING[0m] __main__ -     概念 [ST板块] 成分为空（跳过，不计失败）
-2026-08-11 22:44:46 [[32mINFO[0m] data.source_adapters - [wencai] 查询: 算力租赁概念成分股
-(node:59678) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59681) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59682) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59683) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59684) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59685) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59686) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59687) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59688) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59690) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-2026-08-11 22:44:48 [[33mWARNING[0m] data.multi_source_fetcher - [concept] 问财 算力租赁 失败: 'NoneType' object has no attribute 'get'
-2026-08-11 22:44:48 [[33mWARNING[0m] __main__ -     概念 [算力租赁] 成分为空（跳过，不计失败）
-2026-08-11 22:44:49 [[32mINFO[0m] data.source_adapters - [wencai] 查询: 钛白粉概念成分股
-(node:59691) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59692) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59693) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59694) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59695) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59696) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59697) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59698) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59699) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59700) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-2026-08-11 22:44:51 [[33mWARNING[0m] data.multi_source_fetcher - [concept] 问财 钛白粉概念 失败: 'NoneType' object has no attribute 'get'
-2026-08-11 22:44:51 [[33mWARNING[0m] __main__ -     概念 [钛白粉概念] 成分为空（跳过，不计失败）
-2026-08-11 22:44:51 [[32mINFO[0m] data.source_adapters - [wencai] 查询: 太赫兹概念成分股
-(node:59703) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59704) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59705) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59706) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59707) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59708) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59709) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59710) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59712) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59713) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-2026-08-11 22:44:53 [[33mWARNING[0m] data.multi_source_fetcher - [concept] 问财 太赫兹 失败: 'NoneType' object has no attribute 'get'
-2026-08-11 22:44:53 [[33mWARNING[0m] __main__ -     概念 [太赫兹] 成分为空（跳过，不计失败）
-2026-08-11 22:44:54 [[32mINFO[0m] data.source_adapters - [wencai] 查询: 碳交易概念成分股
-(node:59714) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59715) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59716) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59717) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59718) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59719) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59720) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59721) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59722) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59723) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-2026-08-11 22:44:56 [[33mWARNING[0m] data.multi_source_fetcher - [concept] 问财 碳交易 失败: 'NoneType' object has no attribute 'get'
-2026-08-11 22:44:56 [[33mWARNING[0m] __main__ -     概念 [碳交易] 成分为空（跳过，不计失败）
-2026-08-11 22:44:56 [[32mINFO[0m] data.source_adapters - [wencai] 查询: 碳纤维概念成分股
-(node:59726) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59727) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59728) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59729) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59730) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59731) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59732) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59734) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59735) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59736) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-2026-08-11 22:44:58 [[33mWARNING[0m] data.multi_source_fetcher - [concept] 问财 碳纤维 失败: 'NoneType' object has no attribute 'get'
-2026-08-11 22:44:58 [[33mWARNING[0m] __main__ -     概念 [碳纤维] 成分为空（跳过，不计失败）
-2026-08-11 22:44:59 [[32mINFO[0m] data.source_adapters - [wencai] 查询: 碳中和概念成分股
-(node:59737) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59738) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59741) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59742) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59743) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59750) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59751) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59752) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59753) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59754) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-2026-08-11 22:45:01 [[33mWARNING[0m] data.multi_source_fetcher - [concept] 问财 碳中和 失败: 'NoneType' object has no attribute 'get'
-2026-08-11 22:45:01 [[33mWARNING[0m] __main__ -     概念 [碳中和] 成分为空（跳过，不计失败）
-2026-08-11 22:45:02 [[32mINFO[0m] data.source_adapters - [wencai] 查询: 特钢概念成分股
-(node:59757) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59762) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59763) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59764) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59765) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59767) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59768) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59769) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59770) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59771) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-2026-08-11 22:45:04 [[33mWARNING[0m] data.multi_source_fetcher - [concept] 问财 特钢概念 失败: 'NoneType' object has no attribute 'get'
-2026-08-11 22:45:04 [[33mWARNING[0m] __main__ -     概念 [特钢概念] 成分为空（跳过，不计失败）
-2026-08-11 22:45:04 [[32mINFO[0m] data.source_adapters - [wencai] 查询: 特高压概念成分股
-(node:59772) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59773) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59774) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59775) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59776) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59777) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59779) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59780) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59783) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59784) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-2026-08-11 22:45:07 [[33mWARNING[0m] data.multi_source_fetcher - [concept] 问财 特高压 失败: 'NoneType' object has no attribute 'get'
-2026-08-11 22:45:07 [[33mWARNING[0m] __main__ -     概念 [特高压] 成分为空（跳过，不计失败）
-2026-08-11 22:45:07 [[32mINFO[0m] data.source_adapters - [wencai] 查询: 腾讯概念成分股
-(node:59785) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59786) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59787) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59789) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59790) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59791) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59792) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:59793) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/multiprocessing/resource_tracker.py:216: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown
-  warnings.warn('resource_tracker: There appear to be %d '
+2026-08-13 00:19:15 [[33mWARNING[0m] data.multi_source_fetcher - [concept] 问财 天然气 失败: 'NoneType' object has no attribute 'get'
+2026-08-13 00:19:15 [[33mWARNING[0m] __main__ -     概念 [天然气] 成分为空（跳过，不计失败；连续空/败 5/5）
+2026-08-13 00:19:15 [[31mERROR[0m] __main__ -   ⛔ 连续 5 个概念空/失败，判定问财限流，熔断中止。断点续传：--offset 241

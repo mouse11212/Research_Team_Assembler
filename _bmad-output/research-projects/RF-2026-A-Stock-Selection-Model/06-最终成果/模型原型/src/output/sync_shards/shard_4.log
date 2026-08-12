@@ -1,11 +1,11 @@
 /Users/gourouhundun/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
   warnings.warn(
-[同步] 全局DB最新=20260811 结束=20260811 待处理=926只 主源=tencent 起步=0.45s→0.12s (per-stock增量)
-  [200/926] ok=200 skip=0 fail=0 备源=0 行=1200 delay=0.12s 用时=71s
-  [400/926] ok=400 skip=0 fail=0 备源=0 行=2398 delay=0.12s 用时=137s
-  [600/926] ok=600 skip=0 fail=0 备源=0 行=3596 delay=0.12s 用时=206s
-  [800/926] ok=800 skip=0 fail=0 备源=0 行=4796 delay=0.12s 用时=274s
+[同步] 全局DB最新=20260812 结束=20260812 待处理=926只 主源=tencent 起步=0.45s→0.12s (per-stock增量)
+  [200/926] ok=200 skip=0 fail=0 备源=0 行=400 delay=0.12s 用时=72s
+  [400/926] ok=400 skip=0 fail=0 备源=0 行=799 delay=0.12s 用时=141s
+  [600/926] ok=600 skip=0 fail=0 备源=0 行=1199 delay=0.12s 用时=209s
+  [800/926] ok=800 skip=0 fail=0 备源=0 行=1599 delay=0.12s 用时=278s
 [MA] 重算受影响股票均线…
 ============================================================
-完成 ok=926 skip=0 fail=0 备源=0 新增行=5547 MA更新=5547
-DB最新=20260811（覆盖5205只）总行=925777 用时=318s
+完成 ok=926 skip=0 fail=0 备源=0 新增行=1850 MA更新=1850
+DB最新=20260812（覆盖5204只）总行=930981 用时=323s

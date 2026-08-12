@@ -16,7 +16,7 @@ import pandas as pd
 
 SRC = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DB = os.path.join(SRC, "data", "stock_history.db")
-TRADE_DATE = "20260811"
+TRADE_DATE = sys.argv[1] if len(sys.argv) > 1 else None  # 缺省=库内最新交易日
 MIN_CAP_YI = 30.0          # 总市值下限（亿）
 WIN = 120                  # 形态窗口
 VOL_RATIO_MIN = 1.2        # 量能阈值（分析师校准后）
@@ -203,7 +203,13 @@ def make_chart(code, name, k, out):
 
 
 def main():
+    global TRADE_DATE, REPORT, CHART_DIR
     conn = db_conn()
+    if not TRADE_DATE:
+        TRADE_DATE = conn.execute("SELECT MAX(trade_date) FROM stock_kline").fetchone()[0]
+    REPORT = os.path.join(SRC, "output", f"limitup_trend_report_{TRADE_DATE}.md")
+    CHART_DIR = os.path.join(SRC, "output", f"limitup_charts_{TRADE_DATE}")
+    print(f"分析日期: {TRADE_DATE}")
     cand = get_candidates(conn)
     print(f"主板涨停(含ST): {len(cand)} 只")
     st_rows = cand[cand["is_st"]]
