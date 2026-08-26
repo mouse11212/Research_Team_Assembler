@@ -7,3 +7,6 @@
 
 # Output directory (generated files)
 _bmad-output/
+
+# Playwright MCP browser snapshots (may contain sensitive form data)
+.playwright-mcp/
