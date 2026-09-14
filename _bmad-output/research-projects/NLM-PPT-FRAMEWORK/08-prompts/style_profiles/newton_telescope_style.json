@@ -1,0 +1,116 @@
+{
+  "concept_id": "newton_telescope",
+  "style_decision": {
+    "selected_style": "ST-013",
+    "style_name": "探险手账风",
+    "confidence": 0.89,
+    "is_custom_style": true,
+    "custom_style_note": "框架12种内置风格之外的首个定制风格，按三维风格模型同构定义（era=现代, emotion=活泼, form=丰富）",
+    "decision_factors": {
+      "era": {
+        "value": "现代",
+        "extracted_from": "天文学是当代科学前沿，内容含历史但以现代探究视角呈现",
+        "weight": 0.30,
+        "match": 0.85
+      },
+      "type": {
+        "value": "知识科普",
+        "extracted_from": "光学原理与科学史知识",
+        "weight": 0.25,
+        "match": 0.90
+      },
+      "emotion": {
+        "value": "活泼",
+        "extracted_from": "青少年探究式学习，探险与好奇基调",
+        "weight": 0.20,
+        "match": 0.95
+      },
+      "audience": {
+        "value": "初中生（12-15岁）",
+        "extracted_from": "用户指定受众",
+        "weight": 0.15,
+        "match": 0.90
+      },
+      "complexity": {
+        "value": "中",
+        "extracted_from": "5阶段探究主线，单概念14页",
+        "weight": 0.10,
+        "match": 0.85
+      }
+    }
+  },
+  "style_config": {
+    "dimensions": {
+      "era": "现代",
+      "emotion": "活泼",
+      "form": "丰富"
+    },
+    "visualConfig": {
+      "primaryColor": "#D4A76A",
+      "secondaryColor": "#F5EBDD",
+      "accentColor": "#C0392B",
+      "inkColor": "#4A3728",
+      "starBlue": "#5D8AA8",
+      "titleFont": "手写体（站酷快乐体/得意黑）",
+      "bodyFont": "思源宋体",
+      "titleSize": "36pt",
+      "bodySize": "16pt"
+    },
+    "decoration": [
+      "手绘光路草图",
+      "胶带条",
+      "图钉",
+      "虚线箭头",
+      "印章",
+      "\"牛顿笔记\"批注气泡",
+      "咖啡渍纹理"
+    ],
+    "decorationDensity": "每页≤3处贴纸元素，正文区保持干净",
+    "imagery": {
+      "style": "手绘探险手账+光路示意图",
+      "density": "中",
+      "borderStyle": "手账纸页边框"
+    },
+    "layoutConfig": {
+      "margins": "适中边距(12%)",
+      "alignment": "非对称错落布局，模拟手账拼贴",
+      "whitespace": "猜想区留白",
+      "gridSystem": "自由拼贴网格"
+    }
+  },
+  "special_adaptations": {
+    "for_inquiry_teaching": {
+      "question_banner": "页首引导问题做成手账便签条样式",
+      "guess_area": "猜想区用虚线框+留白，标注\"你觉得会怎样？\"",
+      "reveal_design": "揭晓内容用印章样式标注\"真相\"",
+      "hook_design": "页尾衔接钩子用胶带+手写体呈现下一问"
+    },
+    "for_optics": {
+      "light_path_style": "手绘虚线箭头光路图",
+      "component_labels": "图钉+标签纸标注部件名称"
+    },
+    "for_quiz_page": {
+      "quiz_design": "3道选择题做成答题卡样式，答案页印章揭晓"
+    }
+  },
+  "alternatives": [
+    {
+      "style_id": "ST-005",
+      "style_name": "现代活力",
+      "score": 0.80,
+      "reason": "活泼契合，但缺探险叙事质感"
+    },
+    {
+      "style_id": "ST-007",
+      "style_name": "未来科技",
+      "score": 0.75,
+      "reason": "天文主题契合，但暗色科技感偏严肃，与初中生探究调性不符"
+    },
+    {
+      "style_id": "ST-010",
+      "style_name": "童趣卡通",
+      "score": 0.70,
+      "reason": "活泼但偏低龄，12-15岁需要更成熟的探险感"
+    }
+  ]
+}
