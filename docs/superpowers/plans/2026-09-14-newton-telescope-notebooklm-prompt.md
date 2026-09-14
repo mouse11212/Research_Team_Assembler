@@ -905,9 +905,11 @@ for f in \
   test -f "$f" && echo "OK: $f" || echo "MISSING: $f"
 done
 # 2. 案例报告引用检查：报告中5. 输出文件节的数据应与实际一致
+#    注：案例报告行以中文文件名"case-牛顿天文望远镜_V1.md"引用自身，不含"newton_telescope"，
+#    故匹配数为 3（elements/style_profile/prompt 三行）
 grep -c "newton_telescope" "_bmad-output/research-projects/NLM-PPT-FRAMEWORK/06-最终成果/case-studies/case-牛顿天文望远镜_V1.md"
 ```
-Expected: ①4行全 OK；②grep 输出 ≥4
+Expected: ①4行全 OK；②grep 输出 ≥3
 
 - [ ] **Step 4: Commit**
 
