@@ -345,7 +345,6 @@ concept_id: newton_telescope
 ppt_title: 牛顿天文望远镜科普演示文稿
 version: 1.0
 generated_at: 2026-09-14
-generator: A006
 style_profile: ST-013
 page_count: 14
 quality_score: 4.5/5
