@@ -1,0 +1,196 @@
+# research-framework.yaml
+# 研究框架配置文件
+# 由组团研究器自动生成（自动模式）
+
+metadata:
+  id: RF-20260915-knowledge-base
+  name: "AI开发时代企业级知识库框架选型研究（以WeKnora为范本）"
+  version: "1.0.0"
+  createdAt: "2026-09-15"
+  owner: Wuhao
+  generator: "Research Team Assembler (REM 2.0.0)"
+  mode: autonomous
+  depth: "调研 + 范本深潜 + 评估打分"
+
+# 课题信息
+topic:
+  title: "AI开发时代企业级知识库框架选型研究"
+  description: "以WeKnora为研究范本，建立知识库素质与评估指标体系，盘点业界企业级知识库框架，给出按场景分型的top3推荐与长短处分析"
+  keywords: [知识库, RAG, WeKnora, 企业级, 混合检索, GraphRAG, Agent, MCP, 多租户, RBAC, RAGAS, 选型, 向量数据库, 文档解析]
+  domains: [AI/LLM工程, 软件架构, 知识管理]
+  questionType: "系统性问题（主干：指标体系）+ 实践性问题（收尾：top3选型推荐）"
+
+# 方法论选择
+methodology:
+  selected:
+    id: systems-thinking-dsr
+    name: "系统性思维（主干）+ DSR设计科学（收尾）"
+    rationale: "评估指标体系是多要素系统（摄取→检索→生成→治理反馈闭环），须整体视角设计维度；top3推荐是面向真实选型决策的实践性产出，DSR'问题→方案→验证迭代'承接打分推荐。以WeKnora范本深潜为工程现实锚点，防止指标凭空构建"
+    confidence: 0.9
+    researchStrategy: "比较研究法（comparative case study）+ 范本验证法：WeKnora深潜归纳素质清单→理论补全→泛化检验→全候选对称打分→场景分型推荐"
+  alternatives:
+    - id: first-principles
+      name: "第一性原理（若重心转向知识库本质的理论构建）"
+    - id: dsr-design-science
+      name: "纯DSR（若重心转向自建评估工具）"
+
+# 源资产
+sourceAssets:
+  weknora: "https://github.com/Tencent/WeKnora（范本，深潜对象；MIT协议，评估版本锚定v0.8.0/2026-09）"
+  candidatePool: ["WeKnora", "RAGFlow", "Dify", "FastGPT", "MaxKB", "QAnything", "AnythingLLM"]
+  officialDocs: ["github.com/Tencent/WeKnora", "ragflow.io", "dify.ai", "fastgpt.in", "maxkb.cn"]
+  evalConsensus: "RAGAS分层评估共识（Context Precision/Recall、Faithfulness、Answer Relevancy）+ Context Trustworthiness 2026扩展"
+  evidenceGrades: ["①源码/官方文档实证", "②官方声称", "③社区广泛共识", "④推断"]
+
+# 团队配置（Step-05 产出）
+teamComposition:
+  totalSize: 5
+  breakdown:
+    methodologyAgents: 1   # 指标构建Agent（系统性思维方法论专家）
+    domainExperts: 2       # 范本深潜Agent + 候选盘点Agent（动态生成）
+    auxiliaryAgents: 2     # 协调员 + 跨学科审查员
+  leadAgent:
+    id: coordinator
+    name: 研究协调员
+    role: 主研究员
+    responsibilities: [任务分解, 三路并行调度, 交叉印证组织, 打分综合, top3分型推荐, 报告撰写]
+  agents:
+    - id: agent-weknora-deepdive
+      name: 范本深潜Agent（WeKnora）
+      category: domain_expert
+      task: "SQ1a：解构WeKnora摄取流水线/混合检索+GraphRAG/Agent引擎/Wiki模式/多租户RBAC审计加密OIDC/可观测与部署；归纳素质清单候选维度；记录所依据版本"
+      knowledgeDomains: [RAG架构, Go/Python服务架构, 企业安全]
+      expertiseAreas: [源码与官方文档审计, 架构还原, 素质归纳]
+      output: 04-agent-outputs/agent-weknora-deepdive/范本深潜报告.md
+      collaborationMode: { independent: true, validation: true, conflict: true }
+    - id: agent-landscape
+      name: 候选盘点Agent（业界框架）
+      category: domain_expert
+      task: "SQ2a/SQ2b：候选池5+2框架的最新版本/功能矩阵/企业级特性达标情况（多租户RBAC审计部署）/社区生态盘点；每条结论版本锚定+证据分级"
+      knowledgeDomains: [开源RAG框架生态, 产品评测]
+      expertiseAreas: [公开资料交叉验证, 功能矩阵构建, 时效性控制]
+      output: 04-agent-outputs/agent-landscape/候选盘点报告.md
+      collaborationMode: { independent: true, validation: true, conflict: true }
+    - id: agent-metrics
+      name: 指标构建Agent
+      category: methodology
+      task: "SQ1b：范本素质清单+RAGAS分层评估共识+企业场景约束→7维指标体系（D1摄取/D2检索质量/D3生成与Agent/D4企业特性门槛/D5运维/D6生态/D7成本）；含量化指标、验证方法、场景分型权重"
+      knowledgeDomains: [RAG评估方法论, 企业信息系统选型]
+      expertiseAreas: [评估体系设计, 权重设计, 指标可操作性]
+      output: 04-agent-outputs/agent-metrics/评估指标体系.md
+      collaborationMode: { independent: true, validation: true, conflict: true }
+    - id: agent-reviewer
+      name: 跨学科审查员
+      category: auxiliary
+      task: "交叉印证：范本深潜 vs 候选盘点 vs 指标体系三方一致性；双打分仲裁；证据分级抽查；禁止功能数量计分；分歧记录"
+      output: 05-collaboration-logs/交叉印证记录.md
+      collaborationMode: { independent: false, validation: true, conflict: true }
+
+# 协作规则（Step-07 产出）
+collaborationRules:
+  independentResearch:
+    enabled: true
+    trigger: "三路调研Agent互不依赖，M2阶段并行执行"
+    maxConcurrentAgents: 3
+    qualityCheckRequired: true
+  crossValidation:
+    enabled: true
+    trigger: "M3综合阶段：范本深潜 vs 候选盘点 vs 指标体系 三方印证；双打分一致性检验"
+    minValidators: 2
+    validationCriteria:
+      - logic_consistency        # 逻辑一致性
+      - evidence_sufficiency     # 证据充分性
+      - cross_domain_consistency # 跨域一致性
+      - methodology_compliance   # 方法论规范性
+      - version_anchoring        # 版本锚定（结论须注明框架版本与日期）
+    evidenceGrading: ["①源码/官方文档实证", "②官方声称", "③社区广泛共识", "④推断"]
+    rule: "关键结论须至少两个独立来源支持，或显式标注单一来源级别；④级推断不得表述为事实"
+  conflictResolution:
+    enabled: true
+    trigger: "三方结论不一致、打分分歧>1分、证据级别冲突时"
+    process: "以①级证据为准；打分分歧由审查员仲裁；分歧记录至05-collaboration-logs/交叉印证记录.md"
+    maxResolutionAttempts: 3
+    escalationPath: [审查员仲裁, 证据重核, 标注分歧并降级为'存疑']
+
+# 状态管理（Step-08 产出）
+stateManagement:
+  workflow: "draft → pending_review → under_review → confirmed / revision / divergent → archived"
+  documentTypes:
+    - type: "调研报告"
+      states: [draft, pending_review, under_review, revision, confirmed, divergent, archived]
+    - type: "研究设计"
+      states: [draft, pending_review, confirmed, archived]
+    - type: "协作记录"
+      states: [draft, confirmed, archived]
+    - type: "最终报告"
+      states: [draft, pending_review, under_review, revision, confirmed, archived]
+  forbiddenTransitions:
+    - "draft → confirmed（必须经交叉验证）"
+    - "draft → archived（必须走完整流程）"
+    - "divergent → archived（必须先解决分歧）"
+
+# 文件结构（Step-06 产出）
+fileStructure:
+  root: "_bmad-output/research-projects/RF-20260915-knowledge-base/"
+  structure:
+    - { name: "00-元数据", path: "00-meta/", contents: [research-framework.yaml, output-validation-report.md] }
+    - { name: "01-课题定义", path: "01-topic-definition/", contents: [课题分析报告.md] }
+    - { name: "02-文献综述", path: "02-literature-review/", contents: [文献综述报告.md] }
+    - { name: "03-研究设计", path: "03-research-design/", contents: [研究设计方案.md] }
+    - { name: "04-Agent产出", path: "04-agent-outputs/", contents: [agent-weknora-deepdive/, agent-landscape/, agent-metrics/] }
+    - { name: "05-协作记录", path: "05-collaboration-logs/", contents: [交叉印证记录.md] }
+    - { name: "06-最终成果", path: "06-final-deliverables/", contents: [知识库框架选型研究报告.md] }
+
+# 里程碑
+milestones:
+  - { id: M1, name: 框架落地, deliverables: [research-framework.yaml, 课题分析报告, 文献综述报告, 研究设计方案], status: done }
+  - { id: M2, name: 三路调研完成, deliverables: [范本深潜报告, 候选盘点报告, 评估指标体系], status: pending }
+  - { id: M3, name: 交叉印证完成, deliverables: [交叉印证记录], status: pending }
+  - { id: M4, name: 最终交付, deliverables: [知识库框架选型研究报告（含top3分型推荐+长短处）], status: pending }
+
+# 成果模板（Step-09 产出）
+templates:
+  deepdive_report:
+    format: "范本深潜报告：架构还原 + 子系统解构（摄取/检索/Agent/Wiki/企业特性）+ 素质清单 + 版本锚定"
+    path: 04-agent-outputs/agent-weknora-deepdive/范本深潜报告.md
+  landscape_report:
+    format: "候选盘点报告：框架卡片（定位/版本/协议/社区）+ 功能矩阵 + 企业特性达标表"
+    path: 04-agent-outputs/agent-landscape/候选盘点报告.md
+  metrics_system:
+    format: "评估指标体系：7维分解 + 每维量化指标与验证方法 + 权重设计（基准+三场景画像）"
+    path: 04-agent-outputs/agent-metrics/评估指标体系.md
+  cross_validation_log:
+    format: "交叉印证记录：三方一致性检验结果 + 打分仲裁 + 分歧记录"
+    path: 05-collaboration-logs/交叉印证记录.md
+  final_report:
+    format: "选型研究报告（非IMRAD）：研究结论摘要 + 指标体系 + 候选盘点 + 打分表 + top3场景分型推荐 + 长短处分析 + 假设检验 + 可复现验证要点 + 局限声明"
+    path: 06-final-deliverables/知识库框架选型研究报告.md
+
+# 质量标准
+qualityStandards:
+  - "所有研究结论必须有证据支撑（证据分级制：①源码/官方文档实证 ②官方声称 ③社区广泛共识 ④推断）"
+  - "所有引用必须有明确出处（URL+访问日期+所依据的框架版本）"
+  - "研究方法必须可复现（评分表/权重/证据公开）"
+  - "所有假设必须给出 支持/证伪/存疑 结论"
+  - "推断结论不得表述为事实（标注证据级别）"
+  - "版本锚定：结论须注明所依据的框架版本号与评估日期（应对周更节奏）"
+  - "禁止功能数量计分（功能对比陷阱）：按场景适配度评估"
+
+# 研究问题清单
+findings:
+  targetQuestions:
+    - "SQ1: 知识库应具备哪些素质和指标（以WeKnora范本归纳+理论补全）"
+    - "SQ2: 业界能够支持企业使用的知识库框架有哪些（候选池5+2）"
+    - "SQ3: 现阶段推荐使用的top3是谁，各有什么长处和短处（按场景分型推荐）"
+  subQuestions:
+    - "SQ1a: WeKnora的完整素质清单是什么（范本深潜）"
+    - "SQ1b: 素质清单如何泛化为7维指标体系（指标构建）"
+    - "SQ2a: 候选框架全景与最新版本现状（候选盘点）"
+    - "SQ2b: 各候选的企业级特性达标情况（候选盘点）"
+    - "SQ3a: 按场景分型的top3是谁（协调员综合）"
+    - "SQ3b: top3各自的长处与短处（审查员复核）"
+  hypotheses:
+    - "H1: 基础RAG能力已趋同，真正差异在摄取深度、企业级特性与Agent化程度"
+    - "H2: WeKnora范本解构出的素质清单可泛化为通用评估指标（范本验证法成立）"
+    - "H3: top3无绝对最好，按场景分型推荐（复杂文档型/应用编排型/开箱问答型）"
+    - "H4: 开源自托管是现阶段企业知识库的主流路线（数据主权驱动）"
