@@ -99,26 +99,29 @@ docker run --rm hello-world   # 预期: 输出 "Hello from Docker!" 即加速器
 | 镜像 | arm64 |
 |------|-------|
 | paradedb/paradedb:v0.22.2-pg17 | ✅ 已实证 |
-| wechatopenai/weknora-app:latest | ✅ 已实证 |
-| wechatopenai/weknora-docreader:latest | ✅ 已实证 |
-| wechatopenai/weknora-ui:latest | ✅ 已实证 |
+| wechatopenai/weknora-app:v0.8.0 | ✅ 已实证 |
+| wechatopenai/weknora-docreader:v0.8.0 | ✅ 已实证 |
+| wechatopenai/weknora-ui:v0.8.0 | ✅ 已实证 |
 | redis:7.0-alpine | ✅ 已实证 |
 | qdrant/qdrant:v1.16.2 | ✅ 已实证（备用检索引擎） |
 | neo4j:2025.10.1 | 官方多架构发布，安装后复核 |
-| minio/minio:RELEASE.2025-09-07T16-13-09Z | 官方多架构发布，安装后复核 |
+| quay.io/minio/minio:RELEASE.2025-09-07T16-13-09Z | ✅ 已实证（quay.io 源；Docker Hub 的 minio/minio 自 2025-10-23 起停发免费镜像，不可再用） |
 
-### 3.2 复核命令（安装 Docker 后执行）
+### 3.2 复核命令（在能直连 Docker Hub 的机器上执行）
+
+> `docker manifest inspect` 不走 registry-mirrors（moby 已知行为），在 ECS（直连超时）上执行必失败。
+> 建议在个人电脑（可科学上网）上执行复核；在 ECS 上跳过本步，直接进入 §5 的 pull——架构不符会明确报错。
 
 ```bash
 docker manifest inspect --verbose neo4j:2025.10.1 | grep -E '"architecture"|"variant"' | head -4
-docker manifest inspect --verbose minio/minio:RELEASE.2025-09-07T16-13-09Z | grep -E '"architecture"|"variant"' | head -4
+docker manifest inspect --verbose quay.io/minio/minio:RELEASE.2025-09-07T16-13-09Z | grep -E '"architecture"|"variant"' | head -4
 # 预期: 输出中包含 "architecture": "arm64"
 ```
 
 ### 3.3 无 arm64 镜像时的处理
 
 - 错误表现：拉取时提示 `no matching manifest for linux/arm64/v8 in the manifest list entries`
-- 处理：将 docker-compose.yml 中该镜像 tag 换成其多架构版本（neo4j 换 `2025.10` 系列相邻 tag；minio 换 `latest`），或改用已验证的 qdrant 作为检索引擎（修改 .env 中的向量库配置）
+- 处理：将镜像 tag 换成其多架构版本（neo4j 换 `2025.10` 系列相邻 tag；minio 仅能从 quay.io 获取，换 `RELEASE.` 系列相邻 tag），或改用已验证的 qdrant 作为检索引擎（修改 .env 中的向量库配置）
 ---
 
 ## 4. 拉取源码与配置
@@ -158,6 +161,23 @@ grep WEKNORA_VERSION .env   # 预期: WEKNORA_VERSION=v0.8.0
 
 安装后可随时查看：`docker system df`
 
+### 4.5 创建 minio 镜像源 override（必做）
+
+Docker Hub 的 minio/minio 镜像自 2025-10-23 起停发免费版，官方 compose 中的该镜像已不可拉取。
+创建 `docker-compose.override.yml`（compose 自动加载，官方文件保持原样，升级不冲突）：
+
+```bash
+cd /data/WeKnora
+cat > docker-compose.override.yml <<'EOF'
+services:
+  minio:
+    image: quay.io/minio/minio:RELEASE.2025-09-07T16-13-09Z
+EOF
+cat docker-compose.override.yml   # 预期: 显示上面 3 行内容
+```
+
+> 注意：quay.io 不走 §2.2 配置的 Docker Hub 加速器。若 ECS 直连 quay.io 失败，见 §8.1。
+
 ---
 
 ## 5. 启动服务（标准集 7 容器）
@@ -170,6 +190,7 @@ docker compose --profile neo4j --profile minio pull
 docker compose --profile neo4j --profile minio up -d
 ```
 
+- minio 镜像走 quay.io（不受 §2.2 加速器影响），其余镜像走加速器
 - 首次拉取约 5-8GB（走加速器，时长取决于带宽）
 - 首次启动含数据库自动迁移（AUTO_MIGRATE=true 默认），等待 1-2 分钟
 
@@ -255,15 +276,16 @@ curl -sI http://localhost | head -1      # 预期: HTTP/1.1 200
 1. 检查加速器：`docker info | grep -A5 "Registry Mirrors"`（预期显示你配置的加速地址）
 2. 若使用阿里云专属地址失败，daemon.json 中换 `https://docker.m.daocloud.io` 后 `sudo systemctl restart docker`
 3. 部分大镜像（docreader 约 2GB+）建议夜间/错峰拉取
+4. quay.io（minio 镜像源）拉取失败时：在可访问 quay.io 的机器上 `docker pull quay.io/minio/minio:RELEASE.2025-09-07T16-13-09Z` 后 `docker save`/`docker load` 导入 ECS；或为 quay.io 配置 HTTP 代理后重启 docker
 
 ### 8.2 启动失败排查
 
 ```bash
 docker compose ps                  # 哪个容器非 Up 状态
-docker compose logs <容器名> --tail 50   # 看该容器日志
+docker compose logs <服务名> --tail 50   # 服务名=app/frontend/docreader/postgres/redis/neo4j/minio（§5.2 容器名的 WeKnora- 前缀去掉）
 ```
 
-常见：postgres 迁移失败（.env 密码被改过）→ 恢复默认 `DB_PASSWORD=postgres123!@#` 后重建 `docker compose up -d --force-recreate postgres`。
+常见：postgres 迁移失败（.env 密码被改过）→ 仅当数据卷仍以默认密码初始化时，恢复默认 `DB_PASSWORD=postgres123!@#` 后重建 `docker compose up -d --force-recreate postgres`；若数据卷密码早已变过，需按 postgres 官方流程重置（另查资料）。
 
 ### 8.3 内存不足 → 降级最小集
 
@@ -312,6 +334,7 @@ docker compose down
 sudo tar czf /data/weknora-backup-$(date +%Y%m%d).tar.gz \
   /data/docker/volumes/weknora_postgres-data \
   /data/docker/volumes/weknora_minio_data
+sed -i 's/^WEKNORA_VERSION=.*/WEKNORA_VERSION=vX.Y.Z/' .env   # X.Y.Z 换成目标新版本（先看 release notes）
 git pull
 docker compose --profile neo4j --profile minio pull && docker compose --profile neo4j --profile minio up -d
 ```
