@@ -128,6 +128,7 @@ docker manifest inspect --verbose minio/minio:RELEASE.2025-09-07T16-13-09Z | gre
 ```bash
 sudo mkdir -p /data/WeKnora
 sudo chown $USER:$USER /data/WeKnora
+# 预期: 无报错即成功（命令成功时静默无输出）
 ```
 
 ### 4.2 clone 源码并固定版本
@@ -196,7 +197,7 @@ curl -s http://localhost:8080/health     # 预期: {"status":"ok"}
 curl -sI http://localhost | head -1      # 预期: HTTP/1.1 200
 ```
 
-若 app 未就绪：`docker compose logs app --tail 30` 观察迁移与启动日志（特征：GIN 路由注册与启动监听 8080）。
+若 app 未就绪：`docker compose logs app --tail 30` 观察迁移与启动日志（特征：数据库迁移完成并出现 `Server is running at` 监听 8080；默认 `GIN_MODE=release` 不打印 GIN 逐条路由注册日志）。
 
 ### 6.2 浏览器访问
 
@@ -235,6 +236,7 @@ curl -sI http://localhost | head -1      # 预期: HTTP/1.1 200
 | 硅基流动 | ✅ | ✅（BAAI/bge-m3） | https://api.siliconflow.cn/v1 |
 
 - 模型名以厂商当前文档为准（更新快，勿照搬旧文档）
+- API Key 在对应厂商开放平台注册账号后获取（表中 base_url 与 API Key 须来自同一厂商）
 - 常见组合示例：LLM=DeepSeek + Embedding=智谱 embedding-3；或 LLM=Kimi + Embedding=硅基流动 bge-m3
 - 配置入口在登录后的模型管理界面（界面文案以实际版本为准），填入 API Key、base_url、模型名后测试连通
 
@@ -296,7 +298,7 @@ Docker 数据均在 /data/docker，源码在 /data/WeKnora，全部落在数据�
 
 依据 2026-09 选型研究结论：
 
-1. **保持最新版**：v0.8.0 之前版本存在已披露 CVE（含 2 个 CVSS 9.9），务必使用 v0.8.0 并跟踪新版本
+1. **保持最新版**：2026 年披露的 7 个 CVE（含 2 个 CVSS 9.9）均已在 ≤v0.7.0 版本修复；生产务必使用 ≥v0.7.0 的最新版（本方案锚定 v0.8.0）并跟踪新版本
 2. **公网暴露时**：关闭开放注册（.env 设 `WEKNORA_TENANT_SELF_SERVICE_CREATION_ENABLED=false`），防止注册滥用
 3. **MCP 面最小化**：不用的 MCP 工具与 IM 通道不配置；出口流量过滤
 4. 仅内网使用时，安全组不要放行公网入站
