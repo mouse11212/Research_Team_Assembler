@@ -212,3 +212,111 @@ curl -sI http://localhost | head -1      # 预期: HTTP/1.1 200
 ### 6.4 冒烟测试（未配模型时的最小验证）
 
 登录后创建知识库、上传一个 TXT 文档，验证：文档解析成功（状态变"已完成"）。此时未配模型，向量化与问答尚不可用——继续 §7 配置模型。
+
+---
+
+## 7. 模型配置（启动后，Web UI 内完成）
+
+### 7.1 需要配置什么
+
+| 模型类型 | 是否必需 | 说明 |
+|---------|---------|------|
+| LLM（对话生成） | 问答必需 | 未配置时仅可管理文档，无法问答 |
+| Embedding（向量化） | 文档入库必需 | 上传文档前必须配好，否则无法向量化 |
+| Rerank（重排） | 可选 | 显著提升检索精度，建议配置 |
+
+### 7.2 常见厂商接入表（OpenAI 兼容 API）
+
+| 厂商 | LLM 可用 | Embedding 可用 | base_url 示例 |
+|------|---------|---------------|--------------|
+| Kimi（月之暗面） | ✅ | ❌ 无 Embedding API | https://api.moonshot.cn/v1 |
+| DeepSeek | ✅ | ❌ 无 Embedding API | https://api.deepseek.com |
+| 智谱 GLM | ✅ | ✅（embedding-3） | https://open.bigmodel.cn/api/paas/v4 |
+| 硅基流动 | ✅ | ✅（BAAI/bge-m3） | https://api.siliconflow.cn/v1 |
+
+- 模型名以厂商当前文档为准（更新快，勿照搬旧文档）
+- 常见组合示例：LLM=DeepSeek + Embedding=智谱 embedding-3；或 LLM=Kimi + Embedding=硅基流动 bge-m3
+- 配置入口在登录后的模型管理界面（界面文案以实际版本为准），填入 API Key、base_url、模型名后测试连通
+
+### 7.3 配置验证
+
+1. 上传一个含明确答案的小文档（如 3 段的产品说明）
+2. 提问文档内容相关问题，预期：回答正确且带引用来源
+3. 提问文档外问题，预期：能识别"文档中未找到"（拒答比瞎编好）
+
+---
+
+## 8. 故障排查与维护
+
+### 8.1 镜像拉取超时/失败
+
+1. 检查加速器：`docker info | grep -A5 "Registry Mirrors"`（预期显示你配置的加速地址）
+2. 若使用阿里云专属地址失败，daemon.json 中换 `https://docker.m.daocloud.io` 后 `sudo systemctl restart docker`
+3. 部分大镜像（docreader 约 2GB+）建议夜间/错峰拉取
+
+### 8.2 启动失败排查
+
+```bash
+docker compose ps                  # 哪个容器非 Up 状态
+docker compose logs <容器名> --tail 50   # 看该容器日志
+```
+
+常见：postgres 迁移失败（.env 密码被改过）→ 恢复默认 `DB_PASSWORD=postgres123!@#` 后重建 `docker compose up -d --force-recreate postgres`。
+
+### 8.3 内存不足 → 降级最小集
+
+```bash
+docker compose --profile neo4j --profile minio down
+docker compose up -d                # 最小集 5 容器，无 GraphRAG/对象存储
+```
+
+最小集约需 4GB 内存；恢复标准集再带 profile 启动即可。
+
+### 8.4 端口冲突
+
+编辑 `/data/WeKnora/.env`：
+
+```
+FRONTEND_PORT=8082     # 前端改端口
+APP_PORT=8083          # 后端改端口
+```
+
+然后 `docker compose up -d` 重建，访问 `http://10.17.21.95:8082`。
+
+### 8.5 磁盘空间
+
+```bash
+docker system df                    # 镜像/容器/卷占用总览
+docker system prune -a              # 清理无用镜像（运行中的不受影响）
+```
+
+Docker 数据均在 /data/docker，源码在 /data/WeKnora，全部落在数据盘 80GB 预算内。
+
+### 8.6 安全加固（生产使用前必读）
+
+依据 2026-09 选型研究结论：
+
+1. **保持最新版**：v0.8.0 之前版本存在已披露 CVE（含 2 个 CVSS 9.9），务必使用 v0.8.0 并跟踪新版本
+2. **公网暴露时**：关闭开放注册（.env 设 `WEKNORA_TENANT_SELF_SERVICE_CREATION_ENABLED=false`），防止注册滥用
+3. **MCP 面最小化**：不用的 MCP 工具与 IM 通道不配置；出口流量过滤
+4. 仅内网使用时，安全组不要放行公网入站
+
+### 8.7 升级与数据备份
+
+```bash
+cd /data/WeKnora
+docker compose down
+# 备份数据卷（postgres 与 minio 是关键）：
+sudo tar czf /data/weknora-backup-$(date +%Y%m%d).tar.gz \
+  /data/docker/volumes/weknora_postgres-data \
+  /data/docker/volumes/weknora_minio_data
+git pull
+docker compose --profile neo4j --profile minio pull && docker compose --profile neo4j --profile minio up -d
+```
+
+- 卷目录名以 `docker compose config --volumes` 实际输出为准（WeKnora- 前缀可能随 compose 项目名变化）
+- 升级前必看 release notes 的 Breaking Change（v0.8.0 起移除本地沙箱后端等）
+
+---
+
+> 方案结束。安装成功后建议：按研究报告 §8 实测清单构建 golden dataset 做检索质量对照测试。
