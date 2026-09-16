@@ -119,3 +119,96 @@ docker manifest inspect --verbose minio/minio:RELEASE.2025-09-07T16-13-09Z | gre
 
 - 错误表现：拉取时提示 `no matching manifest for linux/arm64/v8 in the manifest list entries`
 - 处理：将 docker-compose.yml 中该镜像 tag 换成其多架构版本（neo4j 换 `2025.10` 系列相邻 tag；minio 换 `latest`），或改用已验证的 qdrant 作为检索引擎（修改 .env 中的向量库配置）
+---
+
+## 4. 拉取源码与配置
+
+### 4.1 目录准备（安装位置在数据盘）
+
+```bash
+sudo mkdir -p /data/WeKnora
+sudo chown $USER:$USER /data/WeKnora
+```
+
+### 4.2 clone 源码并固定版本
+
+```bash
+git clone https://github.com/Tencent/WeKnora.git /data/WeKnora
+cd /data/WeKnora
+git log --oneline -1        # 预期: main 分支最新提交
+cp .env.example .env
+sed -i 's/^WEKNORA_VERSION=.*/WEKNORA_VERSION=v0.8.0/' .env
+grep WEKNORA_VERSION .env   # 预期: WEKNORA_VERSION=v0.8.0
+```
+
+### 4.3 .env 配置说明
+
+- **模型不预配**：LLM / Embedding / Rerank 全部保持注释状态（默认值），启动后在 Web UI 配置（见 §7）
+- `OLLAMA_OPTIONAL=true` 已默认：本机无 Ollama 时不阻断启动，仅告警
+- 其余全部保持默认值即可
+
+### 4.4 磁盘预算
+
+| 占用 | 位置 | 约 |
+|------|------|-----|
+| 源码 | /data/WeKnora | ~200MB |
+| Docker 镜像 | /data/docker | 5-8GB |
+| 数据卷 | /data/docker/volumes | 按知识库规模 |
+
+安装后可随时查看：`docker system df`
+
+---
+
+## 5. 启动服务（标准集 7 容器）
+
+### 5.1 拉取镜像并启动
+
+```bash
+cd /data/WeKnora
+docker compose --profile neo4j --profile minio pull
+docker compose --profile neo4j --profile minio up -d
+```
+
+- 首次拉取约 5-8GB（走加速器，时长取决于带宽）
+- 首次启动含数据库自动迁移（AUTO_MIGRATE=true 默认），等待 1-2 分钟
+
+### 5.2 预期容器清单
+
+| 容器 | 端口 | 说明 |
+|------|------|------|
+| WeKnora-frontend | 80 | Web UI |
+| WeKnora-app | 8080 | 后端 API |
+| WeKnora-docreader | （内部 gRPC 50051） | 文档解析 |
+| WeKnora-postgres | （内部 5432） | ParadeDB pg17 |
+| WeKnora-redis | （内部 6379） | 任务队列 |
+| WeKnora-neo4j | 7474 / 7687 | GraphRAG 知识图谱 |
+| WeKnora-minio | 9000 / 9001 | 对象存储 |
+
+---
+
+## 6. 启动验证与首次注册
+
+### 6.1 健康检查
+
+```bash
+docker compose ps                        # 预期: 7 个容器均为 Up
+curl -s http://localhost:8080/health     # 预期: {"status":"ok"}
+curl -sI http://localhost | head -1      # 预期: HTTP/1.1 200
+```
+
+若 app 未就绪：`docker compose logs app --tail 30` 观察迁移与启动日志（特征：GIN 路由注册与启动监听 8080）。
+
+### 6.2 浏览器访问
+
+- 内网直接访问：`http://10.17.21.95`
+- 若 ECS 配置了安全组，需在阿里云控制台放行 **80** 与 **8080** 端口（仅内网使用则无需放行公网）
+- 首次打开约需几秒加载前端资源
+
+### 6.3 首次注册
+
+- v0.7.0 起为自助注册模式（`WEKNORA_TENANT_SELF_SERVICE_CREATION_ENABLED=true` 默认）：打开页面 → 注册账号 → 自动创建个人空间，无需默认密码
+- 若注册入口未出现：检查 app 日志中租户初始化相关输出，或确认 .env 中 `WEKNORA_AUTH_DEFAULT_TENANT_MODE` 为默认 `create_personal`
+
+### 6.4 冒烟测试（未配模型时的最小验证）
+
+登录后创建知识库、上传一个 TXT 文档，验证：文档解析成功（状态变"已完成"）。此时未配模型，向量化与问答尚不可用——继续 §7 配置模型。
