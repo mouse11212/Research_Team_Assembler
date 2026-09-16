@@ -29,7 +29,7 @@
 | OS | Ubuntu 22.04.5 LTS | `/etc/os-release` |
 | 架构 | **aarch64（ARM64）** | `uname -m` |
 | CPU/内存 | 8 核 / 15GB（可用 15GB） | `nproc` / `free -h` |
-| 磁盘 | 26GB 可用（29GB 总量，11% 已用） | `df -h` |
+| 磁盘 | 系统盘 vda1 26GB 可用（29GB 总量）；**数据盘 vdb 挂载 /data，80GB 可用**（98GB 总量，已用 14GB，fstab 持久挂载） | `df -h` / `lsblk` |
 | Docker | 未安装 | `docker --version` 失败 |
 | 端口 | 80/8080/7474/7687/9000/9090/5432/6379/11434 全空闲 | `ss -tlnp` |
 | GitHub 可达性 | 200，约 1s | `curl https://github.com` |
@@ -54,14 +54,16 @@
 ## 4. 文档结构（8 节）与内容要求
 
 ### 第 1 节：环境前提
-- 环境快照表（§3 数据）+ 执行前复核命令块（`nproc`/`free -h`/`df -h`/`ss -tlnp`/docker 检查，
+- 环境快照表（§3 数据）+ 执行前复核命令块（`nproc`/`free -h`/`df -h`/`lsblk`（确认 /data 挂载）/`ss -tlnp`/docker 检查，
   每命令一行、附预期输出示例）——执行会话必须重跑一遍，环境变化时先对照调整
-- 判定阈值：≥4 核、≥8GB 内存、≥10GB 磁盘余量、80/8080 空闲；不满足时的处理指引
+- 判定阈值：≥4 核、≥8GB 内存、**数据盘 /data 可用 ≥20GB**、80/8080 空闲；不满足时的处理指引
 
 ### 第 2 节：安装 Docker
 - 官方脚本路径（`curl -fsSL https://get.docker.com | sudo sh`，支持 arm64）
 - 将 ubuntu 加入 docker 组（免 sudo 用 docker）
 - **阿里云镜像加速器配置**（`/etc/docker/daemon.json` 的 registry-mirrors，附获取加速器地址的说明）
+- **Docker 数据根目录改到数据盘**：daemon.json 配置 `data-root: /data/docker`（镜像 5-8GB 不入系统盘；
+  附 `sudo mkdir -p /data/docker` 命令；/data 已有 14GB 既有内容，不得触碰 /data 下其他目录）
 - 重启 docker + `docker run hello-world` 验证
 - 附：Compose 插件已随官方脚本安装（`docker compose version` 验证）
 
@@ -71,10 +73,11 @@
 - 若某镜像无 arm64 的处理：错误表现（`no matching manifest for linux/arm64/v8`）+ 替代方案说明
 
 ### 第 4 节：拉取源码与配置
-- `git clone https://github.com/Tencent/WeKnora.git ~/WeKnora && cd ~/WeKnora`
+- 安装位置：**数据盘 `/data/WeKnora`**（用户要求；`sudo mkdir -p /data/WeKnora && sudo chown $USER:$USER /data/WeKnora`，/data 属 root，须先赋权）
+- `git clone https://github.com/Tencent/WeKnora.git /data/WeKnora && cd /data/WeKnora`
 - `cp .env.example .env`，设置 `WEKNORA_VERSION=v0.8.0`
 - `.env` 其余全部保持默认（模型不配；`OLLAMA_OPTIONAL=true` 已默认，无 Ollama 不阻断启动）
-- 磁盘提示：镜像+卷约 5-8GB，当前 26GB 余量足够，安装后 `docker system df` 查看
+- 磁盘提示：源码+镜像+卷约 6-9GB（Docker 数据在 /data/docker、源码在 /data/WeKnora，均在数据盘 80GB 余量内），安装后 `docker system df` 查看
 
 ### 第 5 节：启动服务
 - `docker compose pull`（首次拉取，走加速器）
@@ -99,7 +102,7 @@
 - Docker Hub 拉取超时 → 检查加速器配置/换加速源（列表）
 - 内存不足 → 停用 neo4j profile 的最小集降级命令
 - 端口冲突 → .env 改 `FRONTEND_PORT`/`APP_PORT` 的方法
-- 磁盘 → `docker system prune` 与数据卷位置说明
+- 磁盘 → `docker system prune` 与数据卷位置说明（Docker 数据根在 /data/docker、源码在 /data/WeKnora，均在数据盘）
 - 安全加固：研究报告结论——最新版（≥v0.7.0）、关公开注册、MCP 面最小化、出口流量过滤
 - 升级：`git pull` + `WEKNORA_VERSION` 更新 + `docker compose pull && up -d`，附升级前备份
   （postgres/minio 数据卷）命令
